@@ -66,7 +66,7 @@ public class PController implements UltrasonicController {
 	}
 	
 	if (this.distance > bandCenter + (bandWidth/2)) {
-		// proportionally reduce speed of inner wheel
+	// proportionally reduce speed of inner wheel
     	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + speed_adjustment);
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
     } else if (this.distance < bandCenter - (bandWidth/2)) {

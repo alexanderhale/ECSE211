@@ -12,8 +12,8 @@ public class PController implements UltrasonicController {
   private final int bandWidth;
   private int distance;
   private int filterControl;
-  private int error_constant = 10;
-  
+  private int error_constant1 = 10;
+  private int error_constant2 = 10;
   public PController(int bandCenter, int bandwidth) {
     this.bandCenter = bandCenter;
     this.bandWidth = bandwidth;
@@ -59,20 +59,30 @@ public class PController implements UltrasonicController {
     // RIGHT (inner) MOTOR IS CONNECTED TO PORT D AND HAS A BLUE PIN ON TOP
     
     int error = Math.abs(this.distance - bandCenter);
-	int speed_adjustment = error_constant*error; 
-	if (speed_adjustment > 300){
-		// set the limit for max. of adjustSpeed
-		speed_adjustment = 300;
+	int adjustSpeed1 = error_constant1*error; 
+	
+	if (adjustSpeed1 > 300){
+		adjustSpeed1 = 300;
 	}
+	int adjustSpeed2 = error_constant2*error; 
+	
+	if (adjustSpeed2 > 300){
+		adjustSpeed2 = 300;
+	}
+	// set the limit for max. of adjustSpeed
 	
 	if (this.distance > bandCenter + (bandWidth/2)) {
-		// proportionally reduce speed of inner wheel
-    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + speed_adjustment);
+	// proportionally reduce speed of inner wheel
+    	//WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - (adjustSpeed1/2));
+    	//WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + adjustSpeed1);
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
     } else if (this.distance < bandCenter - (bandWidth/2)) {
     	// proportionally reduce speed of outer wheel
     	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
-    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + speed_adjustment);
+    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + adjustSpeed2);
+    	//WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
+    	//WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED - (adjustSpeed2/2));
     } else {
     	// distance is on track
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
@@ -80,8 +90,10 @@ public class PController implements UltrasonicController {
     }
   }
 
+
   @Override
   public int readUSDistance() {
     return this.distance;
   }
+
 }

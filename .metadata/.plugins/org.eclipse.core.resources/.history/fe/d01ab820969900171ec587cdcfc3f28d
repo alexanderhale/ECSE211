@@ -48,7 +48,14 @@ public class BangBangController implements UltrasonicController {
     // process a movement based on the us distance passed in (BANG-BANG style)
     // ASSUME COUNTERCLOCKWISE MOVEMENT
     // RIGHT WHEEL IS CONNECTED TO PORT D AND HAS A BLUE PIN ON TOP
-	if (this.distance > bandCenter + (bandWidth/2)) {
+    // if distance too far, slow down right wheel
+	int difference = Math.abs(bandCenter - this.distance);
+	
+	if (difference <= bandWidth/2 ) {
+		// if distance correct, set both wheels to high
+		WallFollowingLab.leftMotor.setSpeed(motorHigh);
+    	WallFollowingLab.rightMotor.setSpeed(motorHigh);
+	} else if (this.distance > bandCenter + (bandWidth/2)) {
 		// too far: reduce speed of inner wheel
     	WallFollowingLab.leftMotor.setSpeed(motorLow);
     	WallFollowingLab.rightMotor.setSpeed(motorHigh);
@@ -56,10 +63,6 @@ public class BangBangController implements UltrasonicController {
     	// too close: reduce speed of outer wheel
     	WallFollowingLab.leftMotor.setSpeed(motorHigh);
     	WallFollowingLab.rightMotor.setSpeed(motorLow);
-    } else {
-    	// distance correct, set both wheels to high
-		WallFollowingLab.leftMotor.setSpeed(motorHigh);
-    	WallFollowingLab.rightMotor.setSpeed(motorHigh);
     }
   
   }
