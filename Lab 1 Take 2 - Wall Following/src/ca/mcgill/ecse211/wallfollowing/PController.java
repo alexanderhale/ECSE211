@@ -5,15 +5,15 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 public class PController implements UltrasonicController {
 
   /* Constants */
-  private static final int MOTOR_SPEED = 200;
+  private static final int MOTOR_SPEED = 300;
   private static final int FILTER_OUT = 20;
 
   private final int bandCenter;
   private final int bandWidth;
   private int distance;
   private int filterControl;
-  private int error_constant = 5;
-
+  private int error_constant1 = 10;
+  private int error_constant2 = 10;
   public PController(int bandCenter, int bandwidth) {
     this.bandCenter = bandCenter;
     this.bandWidth = bandwidth;
@@ -59,23 +59,30 @@ public class PController implements UltrasonicController {
     // RIGHT (inner) MOTOR IS CONNECTED TO PORT D AND HAS A BLUE PIN ON TOP
     
     int error = Math.abs(this.distance - bandCenter);
-	int adjustSpeed = error_constant*error; 
+	int adjustSpeed1 = error_constant1*error; 
 	
-	if (adjustSpeed > 190){
-		adjustSpeed = 190;
+	if (adjustSpeed1 > 300){
+		adjustSpeed1 = 300;
+	}
+	int adjustSpeed2 = error_constant2*error; 
+	
+	if (adjustSpeed2 > 300){
+		adjustSpeed2 = 300;
 	}
 	// set the limit for max. of adjustSpeed
 	
 	if (this.distance > bandCenter + (bandWidth/2)) {
 	// proportionally reduce speed of inner wheel
-    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - (adjustSpeed/2));
-    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + adjustSpeed);	// TODO 5 is a constant that
-    														// should be changed 
+    	//WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - (adjustSpeed1/2));
+    	//WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + adjustSpeed1);
+    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
     } else if (this.distance < bandCenter - (bandWidth/2)) {
     	// proportionally reduce speed of outer wheel
-    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + adjustSpeed);// TODO 5 is a constant that
-														  // should be changed
-    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED - (adjustSpeed/2));
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
+    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + adjustSpeed2);
+    	//WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
+    	//WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED - (adjustSpeed2/2));
     } else {
     	// distance is on track
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
