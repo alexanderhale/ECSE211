@@ -12,12 +12,14 @@ public class PController implements UltrasonicController {
   private final int bandWidth;
   private int distance;
   private int filterControl;
+  private int tooCloseControl;
   private int error_constant = 10;
   
   public PController(int bandCenter, int bandwidth) {
     this.bandCenter = bandCenter;
     this.bandWidth = bandwidth;
     this.filterControl = 0;
+    this.tooCloseControl = 0;
 
     WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED); // Initialize motor rolling forward
     WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
@@ -27,22 +29,11 @@ public class PController implements UltrasonicController {
 
   @Override
   public void processUSData(int distance) {
-	  
-	  //distance = (int)(distance / Math.sqrt(2)); // account for filter being mounted at 45 degrees
-
-    // rudimentary filter - toss out invalid samples corresponding to null
-    // signal.
-    // (n.b. this was not included in the Bang-bang controller, but easily
-    // could have).
-    //
+    // rudimentary filter - toss out invalid samples corresponding to null signal
 	  
     if (distance >= 255 && filterControl < FILTER_OUT) {
-      // bad value, do not set the distance var, however do increment the
-      // filter value
-    	
-      // 255 might need to be divided by sqrt(2) if 45 degress being considered.
-    	
-      filterControl++;
+      // bad value, do not set the distance var, do increment the filter value
+      this.filterControl++;
     } else if (distance >= 255) {
       // We have repeated large values, so there must actually be nothing
       // there: leave the distance alone
@@ -50,14 +41,13 @@ public class PController implements UltrasonicController {
     } else {
       // distance went below 255: reset filter and leave
       // distance alone.
-      filterControl = 0;
+      this.filterControl = 0;
       this.distance = distance;
     }
 
     // TODO: process a movement based on the us distance passed in (P style)
     // ASSUME COUNTERCLOCKWISE MOVEMENT
     // RIGHT (inner) MOTOR IS CONNECTED TO PORT D AND HAS A BLUE PIN ON TOP
-    
     int error = Math.abs(this.distance - bandCenter);
 	int speed_adjustment = error_constant*error; 
 	if (speed_adjustment > 300){
@@ -66,14 +56,31 @@ public class PController implements UltrasonicController {
 	}
 	
 	if (this.distance > bandCenter + (bandWidth/2)) {
-		// proportionally reduce speed of inner wheel
-    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + speed_adjustment);
+		WallFollowingLab.rightMotor.forward();
+		WallFollowingLab.leftMotor.forward();
+		// proportionally increase speed of outer wheel
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + (speed_adjustment));
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
-    } else if (this.distance < bandCenter - (bandWidth/2)) {
-    	// proportionally reduce speed of outer wheel
+    } else if (this.distance < bandCenter - (bandWidth/2) && this.distance >= 10) {
+		WallFollowingLab.rightMotor.forward();
+		WallFollowingLab.leftMotor.forward();
+    	// proportionally increase speed of inner wheel
     	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + speed_adjustment);
+    } else if (this.distance < 10) {
+    	// much too close, pivot. Filter to make sure it isn't an erroneous reading
+    	if (this.tooCloseControl < 2) {
+    		this.tooCloseControl++;
+    	} else {
+    		this.tooCloseControl = 0;
+    		WallFollowingLab.rightMotor.backward();
+    		WallFollowingLab.leftMotor.forward();
+    		WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED / 2);
+        	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED / 2);
+    	}
     } else {
+		WallFollowingLab.rightMotor.forward();
+		WallFollowingLab.leftMotor.forward();
     	// distance is on track
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
     	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);

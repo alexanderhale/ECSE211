@@ -12,6 +12,7 @@ public class BangBangController implements UltrasonicController {
   
   private int filterControl;
   private static final int FILTER_OUT = 20;
+  private int tooCloseControl;
  
   public BangBangController(int bandCenter, int bandwidth, int motorLow, int motorHigh) {
     // Default Constructor
@@ -21,6 +22,7 @@ public class BangBangController implements UltrasonicController {
     this.motorHigh = motorHigh;
     
     this.filterControl = 0;
+    this.tooCloseControl = 0;
     
     WallFollowingLab.leftMotor.setSpeed(motorHigh); // Start robot moving forward
     WallFollowingLab.rightMotor.setSpeed(motorHigh);
@@ -33,7 +35,7 @@ public class BangBangController implements UltrasonicController {
 	// rudimentary filter - toss out invalid samples corresponding to null signal 
     if (distance >= 255 && filterControl < FILTER_OUT) {
       // bad value: do not set the distance var, do increment the filter value
-      filterControl++;
+      this.filterControl++;
     } else if (distance >= 255) {
       // We have repeated large values, so there must actually be nothing
       // there: leave the distance alone
@@ -41,7 +43,7 @@ public class BangBangController implements UltrasonicController {
     } else {
       // distance went below 255: reset filter and leave
       // distance alone.
-      filterControl = 0;
+      this.filterControl = 0;
       this.distance = distance;
     }
 	
@@ -49,14 +51,31 @@ public class BangBangController implements UltrasonicController {
     // ASSUME COUNTERCLOCKWISE MOVEMENT
     // RIGHT WHEEL IS CONNECTED TO PORT D AND HAS A BLUE PIN ON TOP
 	if (this.distance > bandCenter + (bandWidth/2)) {
+		WallFollowingLab.rightMotor.forward();
+		WallFollowingLab.leftMotor.forward();
 		// too far: reduce speed of inner wheel
+		WallFollowingLab.rightMotor.setSpeed(motorHigh);
     	WallFollowingLab.leftMotor.setSpeed(motorLow);
-    	WallFollowingLab.rightMotor.setSpeed(motorHigh);
-    } else if (this.distance < bandCenter - (bandWidth/2)) {
+    } else if (this.distance < bandCenter - (bandWidth/2) && this.distance > 10) {
+    	WallFollowingLab.rightMotor.forward();
+		WallFollowingLab.leftMotor.forward();
     	// too close: reduce speed of outer wheel
     	WallFollowingLab.leftMotor.setSpeed(motorHigh);
     	WallFollowingLab.rightMotor.setSpeed(motorLow);
+    } else if (this.distance <= 10) {
+    	// much too close, pivot. Filter to make sure it isn't an erroneous reading
+    	if (this.tooCloseControl < 2) {
+    		this.tooCloseControl++;
+    	} else {
+    		this.tooCloseControl = 0;
+    		WallFollowingLab.rightMotor.backward();
+    		WallFollowingLab.leftMotor.forward();
+    		WallFollowingLab.leftMotor.setSpeed(motorLow);
+        	WallFollowingLab.rightMotor.setSpeed(motorLow);
+    	}
     } else {
+    	WallFollowingLab.rightMotor.forward();
+		WallFollowingLab.leftMotor.forward();
     	// distance correct, set both wheels to high
 		WallFollowingLab.leftMotor.setSpeed(motorHigh);
     	WallFollowingLab.rightMotor.setSpeed(motorHigh);
