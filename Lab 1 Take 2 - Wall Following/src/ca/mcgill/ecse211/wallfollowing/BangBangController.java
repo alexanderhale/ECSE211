@@ -11,7 +11,7 @@ public class BangBangController implements UltrasonicController {
   private int distance;
   
   private int filterControl;
-  private static final int FILTER_OUT = 20;
+  private static final int FILTER_OUT = 35;
   private int tooCloseControl;
  
   public BangBangController(int bandCenter, int bandwidth, int motorLow, int motorHigh) {
@@ -62,8 +62,8 @@ public class BangBangController implements UltrasonicController {
     	// too close: reduce speed of outer wheel
     	WallFollowingLab.leftMotor.setSpeed(motorHigh);
     	WallFollowingLab.rightMotor.setSpeed(motorLow);
-    } else if (this.distance <= 10) {
-    	// much too close, pivot. Filter to make sure it isn't an erroneous reading
+    } else if (this.distance <= 12) {
+    	// much too close, pivot. Filter to make sure it isn't an erroneous reading. 10
     	if (this.tooCloseControl < 2) {
     		this.tooCloseControl++;
     	} else {

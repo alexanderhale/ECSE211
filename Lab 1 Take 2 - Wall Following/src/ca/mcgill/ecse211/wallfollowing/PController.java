@@ -5,15 +5,15 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 public class PController implements UltrasonicController {
 
   /* Constants */
-  private static final int MOTOR_SPEED = 300;
-  private static final int FILTER_OUT = 20;
+  private static final int MOTOR_SPEED = 250;
+  private static final int FILTER_OUT = 35;
 
   private final int bandCenter;
   private final int bandWidth;
   private int distance;
   private int filterControl;
   private int tooCloseControl;
-  private int error_constant = 10;
+  private int error_constant = 6;  //10
   
   public PController(int bandCenter, int bandwidth) {
     this.bandCenter = bandCenter;
@@ -50,25 +50,25 @@ public class PController implements UltrasonicController {
     // RIGHT (inner) MOTOR IS CONNECTED TO PORT D AND HAS A BLUE PIN ON TOP
     int error = Math.abs(this.distance - bandCenter);
 	int speed_adjustment = error_constant*error; 
-	if (speed_adjustment > 300){
+	if (speed_adjustment > 175){
 		// set the limit for max. of adjustSpeed
-		speed_adjustment = 300;
+		speed_adjustment = 175;
 	}
 	
 	if (this.distance > bandCenter + (bandWidth/2)) {
 		WallFollowingLab.rightMotor.forward();
 		WallFollowingLab.leftMotor.forward();
 		// proportionally increase speed of outer wheel
-    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + (speed_adjustment));
-    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED);
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED + speed_adjustment);
+    	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED - (speed_adjustment/6));
     } else if (this.distance < bandCenter - (bandWidth/2) && this.distance >= 10) {
 		WallFollowingLab.rightMotor.forward();
 		WallFollowingLab.leftMotor.forward();
     	// proportionally increase speed of inner wheel
-    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED);
+    	WallFollowingLab.rightMotor.setSpeed(MOTOR_SPEED - (speed_adjustment/6));
     	WallFollowingLab.leftMotor.setSpeed(MOTOR_SPEED + speed_adjustment);
-    } else if (this.distance < 10) {
-    	// much too close, pivot. Filter to make sure it isn't an erroneous reading
+    } else if (this.distance < 20) {
+    	// much too close, pivot. Filter to make sure it isn't an erroneous reading. 10
     	if (this.tooCloseControl < 2) {
     		this.tooCloseControl++;
     	} else {
