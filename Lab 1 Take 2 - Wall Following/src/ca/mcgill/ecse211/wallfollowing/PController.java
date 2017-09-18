@@ -31,7 +31,7 @@ public class PController implements UltrasonicController {
   public void processUSData(int distance) {
     // rudimentary filter - toss out invalid samples corresponding to null signal
 	  
-    if (distance >= 255 && filterControl < FILTER_OUT) {
+    if ((distance >= 255 && filterControl < FILTER_OUT) || (distance > 20000)) {
       // bad value, do not set the distance var, do increment the filter value
       this.filterControl++;
     } else if (distance >= 255) {
