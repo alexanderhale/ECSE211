@@ -17,6 +17,7 @@ public class Odometer extends Thread {
   public static int nowTachoR;			// Current tacho R
   public static final double WR = 2.6;  //2.1
   public static final double Width = 13.4;   //15.8
+  //change the WR and width to our own robot value
 
  
   private static final long ODOMETER_PERIOD = 25; /*odometer update period, in ms*/
