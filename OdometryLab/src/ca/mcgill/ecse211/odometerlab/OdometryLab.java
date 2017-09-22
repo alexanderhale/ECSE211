@@ -6,12 +6,10 @@ import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
-import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
-
 
 public class OdometryLab {
 
@@ -29,16 +27,15 @@ public class OdometryLab {
   public static void main(String[] args) {
     int buttonChoice;
 
+    @SuppressWarnings("resource") // Because we don't bother to close this resource
+    SensorModes lsSensor = new EV3ColorSensor(lsPort);
+    SampleProvider lsReading = lsSensor.getMode("Red");
+    float[] lsData = new float[lsReading.sampleSize()];
+    
     final TextLCD t = LocalEV3.get().getTextLCD();
     Odometer odometer = new Odometer(leftMotor, rightMotor);
     OdometryDisplay odometryDisplay = new OdometryDisplay(odometer, t);
-    OdometryCorrection odometryCorrection = new OdometryCorrection(odometer);
-    
-    /* THIS SETUP IS PROBABLY NOT CORRECT
-    @SuppressWarnings("resource") // Because we don't bother to close this resource
-    SensorModes lsSensor = new EV3UltrasonicSensor(lsPort);
-    SampleProvider lsReading = lsSensor.getMode("Distance");
-    float[] lsData = new float[lsReading.sampleSize()]; */
+    OdometryCorrection odometryCorrection = new OdometryCorrection(odometer, lsData);
 
     do {
       // clear the display

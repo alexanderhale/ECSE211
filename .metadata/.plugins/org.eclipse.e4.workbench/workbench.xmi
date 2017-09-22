@@ -157,8 +157,8 @@
                 <children xsi:type="advanced:Placeholder" xmi:id="_sw3H_pdCEeewjq0hfn9cpw" elementId="org.eclipse.egit.ui.RepositoriesView" toBeRendered="false" ref="_swtW-JdCEeewjq0hfn9cpw"/>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_sw3H_5dCEeewjq0hfn9cpw" containerData="8250" selectedElement="_sw3IAJdCEeewjq0hfn9cpw">
-              <children xsi:type="basic:PartSashContainer" xmi:id="_sw3IAJdCEeewjq0hfn9cpw" containerData="9000" selectedElement="_sw3IAZdCEeewjq0hfn9cpw" horizontal="true">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_sw3H_5dCEeewjq0hfn9cpw" containerData="8250" selectedElement="_sw3ICZdCEeewjq0hfn9cpw">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_sw3IAJdCEeewjq0hfn9cpw" containerData="8764" selectedElement="_sw3IAZdCEeewjq0hfn9cpw" horizontal="true">
                 <children xsi:type="advanced:Placeholder" xmi:id="_sw3IAZdCEeewjq0hfn9cpw" elementId="org.eclipse.ui.editorss" containerData="9000" ref="__17JwJdBEeewjq0hfn9cpw"/>
                 <children xsi:type="basic:PartSashContainer" xmi:id="_sw3IApdCEeewjq0hfn9cpw" visible="false" containerData="1000" selectedElement="_sw3IBZdCEeewjq0hfn9cpw">
                   <children xsi:type="basic:PartStack" xmi:id="_sw3IA5dCEeewjq0hfn9cpw" elementId="org.eclipse.mylyn.tasks.ui.views.tasksMStack" visible="false" containerData="5000" selectedElement="_sw3IBJdCEeewjq0hfn9cpw">
@@ -174,7 +174,7 @@
                   </children>
                 </children>
               </children>
-              <children xsi:type="basic:PartStack" xmi:id="_sw3ICZdCEeewjq0hfn9cpw" elementId="bottom" containerData="1000" selectedElement="_sw3IDpdCEeewjq0hfn9cpw">
+              <children xsi:type="basic:PartStack" xmi:id="_sw3ICZdCEeewjq0hfn9cpw" elementId="bottom" containerData="1236" selectedElement="_sw3IDpdCEeewjq0hfn9cpw">
                 <tags>org.eclipse.e4.secondaryDataStack</tags>
                 <children xsi:type="advanced:Placeholder" xmi:id="_sw3ICpdCEeewjq0hfn9cpw" elementId="org.eclipse.ui.views.ProblemView" ref="_swtW8ZdCEeewjq0hfn9cpw"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_sw3IC5dCEeewjq0hfn9cpw" elementId="org.eclipse.jdt.ui.JavadocView" ref="_swtW8pdCEeewjq0hfn9cpw"/>
@@ -214,9 +214,8 @@
     <sharedElements xsi:type="advanced:Area" xmi:id="__17JwJdBEeewjq0hfn9cpw" elementId="org.eclipse.ui.editorss" selectedElement="_bjEx0ZmpEeeCYKSHzLgEmA">
       <children xsi:type="basic:PartStack" xmi:id="_bjEx0ZmpEeeCYKSHzLgEmA" elementId="PartStack@25c3e325" selectedElement="_SDVJYJ8ZEeexq9j53f0xGg">
         <tags>active</tags>
-        <tags>noFocus</tags>
         <children xsi:type="basic:Part" xmi:id="_SDVJYJ8ZEeexq9j53f0xGg" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="OdometryLab.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;OdometryLab.java&quot; partName=&quot;OdometryLab.java&quot; title=&quot;OdometryLab.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryLab.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryLab.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1544&quot; selectionTopPixel=&quot;432&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;OdometryLab.java&quot; partName=&quot;OdometryLab.java&quot; title=&quot;OdometryLab.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryLab.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryLab.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1176&quot; selectionTopPixel=&quot;1391&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
@@ -224,13 +223,13 @@
           <tags>activeOnClose</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_RdG24J8ZEeexq9j53f0xGg" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Odometer.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Odometer.java&quot; partName=&quot;Odometer.java&quot; title=&quot;Odometer.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/Odometer.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/Odometer.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;10&quot; selectionOffset=&quot;1266&quot; selectionTopPixel=&quot;337&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Odometer.java&quot; partName=&quot;Odometer.java&quot; title=&quot;Odometer.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/Odometer.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/Odometer.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;2893&quot; selectionTopPixel=&quot;3098&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_RqfLkJ8ZEeexq9j53f0xGg" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="OdometryCorrection.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;OdometryCorrection.java&quot; partName=&quot;OdometryCorrection.java&quot; title=&quot;OdometryCorrection.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryCorrection.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryCorrection.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;533&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;OdometryCorrection.java&quot; partName=&quot;OdometryCorrection.java&quot; title=&quot;OdometryCorrection.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryCorrection.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/OdometryCorrection.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;899&quot; selectionTopPixel=&quot;239&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
@@ -242,13 +241,13 @@
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_SQZ8EJ8ZEeexq9j53f0xGg" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="SquareDriver.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;SquareDriver.java&quot; partName=&quot;SquareDriver.java&quot; title=&quot;SquareDriver.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/SquareDriver.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/SquareDriver.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;5&quot; selectionOffset=&quot;1056&quot; selectionTopPixel=&quot;405&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;SquareDriver.java&quot; partName=&quot;SquareDriver.java&quot; title=&quot;SquareDriver.java&quot; tooltip=&quot;OdometryLab/src/ca/mcgill/ecse211/odometerlab/SquareDriver.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/OdometryLab/src/ca/mcgill/ecse211/odometerlab/SquareDriver.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;589&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_BAYuUJ8wEeexq9j53f0xGg" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="WallFollowingLab.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;WallFollowingLab.java&quot; partName=&quot;WallFollowingLab.java&quot; title=&quot;WallFollowingLab.java&quot; tooltip=&quot;Lab 1 Take 2 - Wall Following/src/ca/mcgill/ecse211/wallfollowing/WallFollowingLab.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Lab 1 Take 2 - Wall Following/src/ca/mcgill/ecse211/wallfollowing/WallFollowingLab.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;6&quot; selectionOffset=&quot;2431&quot; selectionTopPixel=&quot;1093&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;WallFollowingLab.java&quot; partName=&quot;WallFollowingLab.java&quot; title=&quot;WallFollowingLab.java&quot; tooltip=&quot;Lab 1 Take 2 - Wall Following/src/ca/mcgill/ecse211/wallfollowing/WallFollowingLab.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Lab 1 Take 2 - Wall Following/src/ca/mcgill/ecse211/wallfollowing/WallFollowingLab.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;6&quot; selectionOffset=&quot;2431&quot; selectionTopPixel=&quot;1067&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
@@ -326,7 +325,7 @@
       <tags>categoryTag:Java</tags>
     </sharedElements>
     <sharedElements xsi:type="basic:Part" xmi:id="_swtW8ZdCEeewjq0hfn9cpw" elementId="org.eclipse.ui.views.ProblemView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Problems" iconURI="platform:/plugin/org.eclipse.ui.ide/icons/full/eview16/problems_view.png" tooltip="" closeable="true">
-      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;view PRIMARY_SORT_FIELD=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot; categoryGroup=&quot;org.eclipse.ui.ide.severity&quot; markerContentGenerator=&quot;org.eclipse.ui.ide.problemsGenerator&quot; partName=&quot;Problems&quot;>&#xD;&#xA;&lt;expanded>&#xD;&#xA;&lt;category IMemento.internal.id=&quot;Warnings (3 items)&quot;/>&#xD;&#xA;&lt;/expanded>&#xD;&#xA;&lt;columnWidths org.eclipse.ui.ide.locationField=&quot;120&quot; org.eclipse.ui.ide.markerType=&quot;120&quot; org.eclipse.ui.ide.pathField=&quot;160&quot; org.eclipse.ui.ide.resourceField=&quot;120&quot; org.eclipse.ui.ide.severityAndDescriptionField=&quot;400&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.resourceField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.pathField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.locationField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.markerType&quot;/>&#xD;&#xA;&lt;/view>"/>
+      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;view PRIMARY_SORT_FIELD=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot; categoryGroup=&quot;org.eclipse.ui.ide.severity&quot; markerContentGenerator=&quot;org.eclipse.ui.ide.problemsGenerator&quot; partName=&quot;Problems&quot;>&#xD;&#xA;&lt;expanded>&#xD;&#xA;&lt;category IMemento.internal.id=&quot;Warnings (10 items)&quot;/>&#xD;&#xA;&lt;/expanded>&#xD;&#xA;&lt;columnWidths org.eclipse.ui.ide.locationField=&quot;120&quot; org.eclipse.ui.ide.markerType=&quot;120&quot; org.eclipse.ui.ide.pathField=&quot;160&quot; org.eclipse.ui.ide.resourceField=&quot;120&quot; org.eclipse.ui.ide.severityAndDescriptionField=&quot;400&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.resourceField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.pathField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.locationField&quot;/>&#xD;&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.markerType&quot;/>&#xD;&#xA;&lt;/view>"/>
       <tags>View</tags>
       <tags>categoryTag:General</tags>
       <menus xmi:id="_s8md4JdCEeewjq0hfn9cpw" elementId="org.eclipse.ui.views.ProblemView">
@@ -394,7 +393,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_-08N4pdBEeewjq0hfn9cpw" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_nphrN58YEeexq9j53f0xGg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_-MOoOZdBEeewjq0hfn9cpw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_VlLa55-aEee0ksOErmoCBg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_-MOoOZdBEeewjq0hfn9cpw"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_-08N45dBEeewjq0hfn9cpw" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -421,7 +420,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_-1FX0JdBEeewjq0hfn9cpw" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_nprcOZ8YEeexq9j53f0xGg" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_-MFe_JdBEeewjq0hfn9cpw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_VlVL5Z-aEee0ksOErmoCBg" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_-MFe_JdBEeewjq0hfn9cpw"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_SkT7gJdCEeewjq0hfn9cpw" elementId="org.eclipse.jdt.ui.ClassFileEditor">
         <tags>Draggable</tags>
