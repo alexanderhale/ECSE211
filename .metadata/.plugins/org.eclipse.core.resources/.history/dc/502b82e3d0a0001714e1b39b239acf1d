@@ -41,6 +41,7 @@ public class OdometryCorrection extends Thread {
       // get light value
       lsColour.fetchSample(lsData, 0);
       float lightValue = lsData[0] * 1000;		// scale up for more accuracy
+      System.out.println(lightValue);
       
       // check if the light value indicates black (i.e. a line)
       if (lightValue <= blackValue && !lineFound) {
@@ -66,7 +67,7 @@ public class OdometryCorrection extends Thread {
     		  // TODO
     	  } else {
     		// we've crossed a line while heading the X direction!
-    		  Sound.playNote(Sound.FLUTE, 880, 250);
+    		  // Sound.playNote(Sound.FLUTE, 880, 250);
     		  
     		  // calculate how far the axle is from the line
     		  double offset = Math.cos(theta) * sensorToAxle;

@@ -19,16 +19,15 @@ public class OdometryCorrection extends Thread {
   private static final double sensorToAxle = 3.25;	// TODO: fine-tune this. Only measured once
   
   private static Port lsPort = LocalEV3.get().getPort("S1");
-  private SensorModes lsSensor;
   private SampleProvider lsColour;
+  private SensorModes csSensor;
   private float[] lsData;
   
   // constructor
   public OdometryCorrection(Odometer odometer) {
     this.odometer = odometer;
-    this.lsSensor = new EV3ColorSensor(lsPort);
-    this.lsColour = lsSensor.getMode("Red");
-    this.lsData = new float[lsSensor.sampleSize()];
+    this.lsColour = csSensor.getMode("Red");
+    this.lsData = new float[csSensor.sampleSize()];
   }
 
   // run method (required for Thread)
@@ -40,7 +39,9 @@ public class OdometryCorrection extends Thread {
       
       // get light value
       lsColour.fetchSample(lsData, 0);
-      float lightValue = lsData[0] * 1000;		// scale up for more accuracy
+      float lightValue = lsData[0];
+      System.out.println(lightValue);
+      // int reading = lsSensor.getColorID();   // not sure how to properly do this
       
       // check if the light value indicates black (i.e. a line)
       if (lightValue <= blackValue && !lineFound) {
