@@ -17,8 +17,6 @@ public class OdometryCorrection extends Thread {
   private Odometer odometer;
   private static final int blackValue = 100;	// TODO: FINE-TUNE THIS. THIS IS AN ESTIMATE. Use an average!
   private static final double sensorToAxle = 3.25;	// TODO: fine-tune this. Only measured once
-  private static final double tileLength = 30.48;	// from lab instructions
-  private static final double halfTileLength = 30.48 / 2;	// to save calculations later
   
   private static Port lsPort = LocalEV3.get().getPort("S1");
   private SensorModes lsSensor;
@@ -63,7 +61,7 @@ public class OdometryCorrection extends Thread {
     		  
     		  // set y at the closest line
     		  // TODO check this out - I'm not 100% sure the logic is correct
-    		  y = Math.round((y + halfTileLength) / tileLength) * tileLength - halfTileLength;
+    		  
     		  
     		  // send y back to the odometer class (removing offset)
     		  odometer.setY(y - offset/2);
@@ -78,11 +76,10 @@ public class OdometryCorrection extends Thread {
     		  double x = odometer.getX() + offset;
     		  
     		  // set x at the closest line
-    		  // TODO check this out - I'm not 100% sure the logic is correct
-    		  x = Math.round((x + halfTileLength) / tileLength) * tileLength - halfTileLength;
+    		  // TODO no idea how to do this :(
     		  
     		  // send x back to the odometer class
-    		  odometer.setX(x - offset/2);
+    		  // TODO
     	  }
     	  lineFound = true;
       } else {

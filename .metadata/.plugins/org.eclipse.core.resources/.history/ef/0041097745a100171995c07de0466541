@@ -14,7 +14,7 @@ public class SquareDriver {
     // reset the motors
     for (EV3LargeRegulatedMotor motor : new EV3LargeRegulatedMotor[] {leftMotor, rightMotor}) {
       motor.stop();
-      motor.setAcceleration(500);		// slow down acceleration to reduce slip
+      motor.setAcceleration(500);
     }
 
     // wait 5 seconds
