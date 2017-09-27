@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;ca.mcgill.ecse211.Navigation.OdometeryDisplay.java&apos; to &apos;OdometryDisplay.java&apos;&#x0D;&#x0A;- Original project: &apos;Lab 3 - Navigation and Obstacles&apos;&#x0D;&#x0A;- Original element: &apos;ca.mcgill.ecse211.Navigation.OdometeryDisplay.java&apos;&#x0D;&#x0A;- Renamed element: &apos;ca.mcgill.ecse211.Navigation.OdometryDisplay.java&apos;" description="Rename compilation unit &apos;OdometeryDisplay.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;ca.mcgill.ecse211.Navigation{OdometeryDisplay.java" name="OdometryDisplay.java" references="false" stamp="1506556214702" version="1.0"/>
+</session>
