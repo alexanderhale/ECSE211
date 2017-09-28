@@ -60,7 +60,7 @@ public class Navigation extends Thread {
 		// TODO: decide if we actually need to do this
 		double distanceToNext = Math.sqrt(Math.pow(x - xNow, 2) + Math.pow(y-yNow, 2));
 		
-		// calculate difference in theta required
+		// calculate difference in theta required (dot product of two vectors)
 		double deltaX = x - xNow;
 		double deltaY = y - yNow;
 		
@@ -75,25 +75,6 @@ public class Navigation extends Thread {
 		} else if (differenceInTheta < -(Math.PI)){
 			differenceInTheta += 2*Math.PI;
 		}
-		
-		navigating = true;
-		turnTo(differenceInTheta);
-		
-		leftMotor.setAcceleration(500);
-		rightMotor.setAcceleration(500);
-		leftMotor.setSpeed(FORWARD_SPEED);
-		rightMotor.setSpeed(FORWARD_SPEED);
-		
-		leftMotor.rotate(convertDistance(wheelRadius,distanceToNext), true);
-		rightMotor.rotate(convertDistance(wheelRadius,distanceToNext), false);
-		
-		leftMotor.forward();
-		rightMotor.forward();
-
-		leftMotor.stop();
-		rightMotor.stop();
-		
-		navigating = false;
 	}
 	
 	public void turnTo(double theta) {
@@ -105,9 +86,9 @@ public class Navigation extends Thread {
 		
 		//turns to calculated angle
 		navigating = true;
-		int rotation = convertAngle(wheelRadius, axleWidth, theta);
-		leftMotor.rotate(rotation, true);
-		rightMotor.rotate(-rotation, false);
+		double rotation = convertAngle(wheelRadius, axleWidth, theta);
+		leftMotor.rotate(convertAngle(leftRadius, WIDTH, angle), true);
+		rightMotor.rotate(-convertAngle(rightRadius, WIDTH, angle), false);
 		navigating = false;
 		
 		leftMotor.stop();
@@ -115,7 +96,7 @@ public class Navigation extends Thread {
 	}
 	
 	public boolean isNavigating() {
-		return navigating;
+		return true; // temp
 	}
 	
 	// calculation methods

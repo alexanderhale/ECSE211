@@ -23,7 +23,7 @@ public class Odometer extends Thread {
  
   private static final long ODOMETER_PERIOD = 25; /*odometer update period, in ms*/
 
-  public Object lock; /*lock object for mutual exclusion*/
+  private Object lock; /*lock object for mutual exclusion*/
 
   // default constructor
   public Odometer(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor) {

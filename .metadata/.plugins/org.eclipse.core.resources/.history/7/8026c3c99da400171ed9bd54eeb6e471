@@ -75,25 +75,6 @@ public class Navigation extends Thread {
 		} else if (differenceInTheta < -(Math.PI)){
 			differenceInTheta += 2*Math.PI;
 		}
-		
-		navigating = true;
-		turnTo(differenceInTheta);
-		
-		leftMotor.setAcceleration(500);
-		rightMotor.setAcceleration(500);
-		leftMotor.setSpeed(FORWARD_SPEED);
-		rightMotor.setSpeed(FORWARD_SPEED);
-		
-		leftMotor.rotate(convertDistance(wheelRadius,distanceToNext), true);
-		rightMotor.rotate(convertDistance(wheelRadius,distanceToNext), false);
-		
-		leftMotor.forward();
-		rightMotor.forward();
-
-		leftMotor.stop();
-		rightMotor.stop();
-		
-		navigating = false;
 	}
 	
 	public void turnTo(double theta) {
