@@ -66,7 +66,7 @@ public class Navigation extends Thread {
 		
 		// TODO: check for special cases (moving along x or y axis)
 		
-		double coordinateTheta = Math.atan(x/y);
+		double coordinateTheta = Math.atan(deltaX/deltaY);
 		
 		double differenceInTheta = thetaNow - coordinateTheta;
 		
