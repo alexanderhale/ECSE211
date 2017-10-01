@@ -12,9 +12,8 @@ public class Navigation extends Thread {
 	// constants
 	private int FORWARD_SPEED = 200;
 	private int ROTATE_SPEED = 100;
-	private double axleWidth = 12.7, wheelRadius = 2.125;
-	private double thetaNow, xNow, yNow;		// current heading
-	private double thetaNext, xNext, yNext;	// next heading
+	private double axleWidth, wheelRadius;	// passed in on system startup
+	private double thetaNow, xNow, yNow;	// current heading
 	
 	public Navigation (Odometer odometer, EV3LargeRegulatedMotor leftMotor,EV3LargeRegulatedMotor rightMotor,
 			double axleWidth, double wheelRadius){
@@ -56,27 +55,34 @@ public class Navigation extends Thread {
 	}
 	
 	public void travelTo(double x, double y) {
-		// calculate distance between current position and next coordinate
-		// TODO: decide if we actually need to do this
+		// calculate distance between current position and next coordinate (uses Euclidian error)
 		double distanceToNext = Math.sqrt(Math.pow(x - xNow, 2) + Math.pow(y-yNow, 2));
 		
 		// calculate difference in theta required
 		double deltaX = x - xNow;
 		double deltaY = y - yNow;
 		
-		// TODO: check for special cases (moving along x or y axis)
+		// the angle of the vector between the current position and the next position
+		double thetaToNextPoint = Math.atan(deltaY/deltaX);	
 		
-		double coordinateTheta = Math.atan(deltaX/deltaY);
+		// check which direction X and Y need to change (i.e. whether we need to add or subtract pi)
+		if (deltaX < 0 && deltaY > 0) {
+			thetaToNextPoint += Math.PI;
+		} else if (deltaX < 0 && deltaY < 0) {
+			thetaToNextPoint -= Math.PI;
+		}
 		
-		double differenceInTheta = thetaNow - coordinateTheta;
+		// the difference between the robot's current heading and the heading that points
+		// to the next position
+		double differenceInTheta = thetaToNextPoint - thetaNow;
 		
+		// ensure the robot rotates the least amount necessary
 		if (differenceInTheta > Math.PI) {
 			differenceInTheta -= 2*Math.PI;
 		} else if (differenceInTheta < -(Math.PI)){
 			differenceInTheta += 2*Math.PI;
 		}
 		
-		navigating = true;
 		turnTo(differenceInTheta);
 		
 		leftMotor.setAcceleration(500);
@@ -84,6 +90,7 @@ public class Navigation extends Thread {
 		leftMotor.setSpeed(FORWARD_SPEED);
 		rightMotor.setSpeed(FORWARD_SPEED);
 		
+		navigating = true;
 		leftMotor.rotate(convertDistance(wheelRadius,distanceToNext), true);
 		rightMotor.rotate(convertDistance(wheelRadius,distanceToNext), false);
 		
@@ -97,17 +104,25 @@ public class Navigation extends Thread {
 	}
 	
 	public void turnTo(double theta) {
+		// slow down
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
 		
 		//convert to degrees
 		theta = theta * 180 / Math.PI;
 		
-		//turns to calculated angle
+		//turn to calculated angle
 		navigating = true;
 		int rotation = convertAngle(wheelRadius, axleWidth, theta);
-		leftMotor.rotate(rotation, true);
-		rightMotor.rotate(-rotation, false);
+		
+		// rotate the appropriate direction
+		if (rotation > 0) {
+			leftMotor.rotate(rotation, true);
+			rightMotor.rotate(-rotation, false);
+		} else {
+			leftMotor.rotate(-rotation, true);
+			rightMotor.rotate(rotation, false);
+		}
 		navigating = false;
 		
 		leftMotor.stop();

@@ -1,0 +1,70 @@
+package ca.mcgill.ecse211.Navigation;
+
+import lejos.hardware.Button;
+import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.lcd.TextLCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.SensorModes;
+import lejos.robotics.SampleProvider;
+
+public class Lab3 {
+
+	public static EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
+	public static EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
+	
+	private static Port lsPort = LocalEV3.get().getPort("S4");
+	SensorModes lsSensor = new EV3ColorSensor(lsPort);
+	SampleProvider lsColour = lsSensor.getMode("Red");
+	float[] lsData = new float[lsSensor.sampleSize()];
+	
+	public static Port usPort = LocalEV3.get().getPort("S1");
+    static SensorModes usSensor = new EV3UltrasonicSensor(usPort); // the instance
+    static SampleProvider usDistance = usSensor.getMode("Distance"); // provides samples from this instance
+    static float[] usData = new float[usDistance.sampleSize()]; // buffer in which data are returned
+
+	// constants
+	private int FORWARD_SPEED = 200;		// TODO: remove if not used in this class
+	private int ROTATE_SPEED = 100;
+	public static double axleWidth = 12.7, wheelRadius = 2.125;
+	private static final int bandCenter = 35; // Offset from the wall (cm, at
+	private static final int bandWidth = 6; // Width of dead band (cm)
+	
+	public static void main(String[] args) {    
+	    final TextLCD t = LocalEV3.get().getTextLCD();
+	    Odometer odometer = new Odometer(leftMotor, rightMotor);
+	    OdometryDisplay odometryDisplay = new OdometryDisplay(odometer, t);
+	    Navigation navigation = new Navigation(odometer, leftMotor, rightMotor, axleWidth, wheelRadius);
+	    PController pController = new PController(bandCenter, bandWidth);
+	    UltrasonicPoller usPoller = new UltrasonicPoller(usDistance, usData, pController);
+	    
+	    Button.waitForAnyPress();
+	      
+	    odometer.start();
+	    odometryDisplay.start();
+	    navigation.start();
+	    usPoller.start();
+	    
+	    
+	    
+	    // Wait here forever until button pressed to terminate
+	    Button.waitForAnyPress();
+	    System.exit(0);
+	}
+	
+	public void startTrial() {
+		double[] x = {1, 2, 3, 4, 3};
+	    double[] y = {1, 2, 3, 4, 3};
+	    
+	    for (int i = 0; i < x.length; i++) {
+	    	Navigation.travelTo(x[i], y[i]);
+	    	
+	    	while (Navigation.isNavigating()) {
+	    		// do nothing until the robot is not travelling
+	    	}
+	    }
+	}
+
+}

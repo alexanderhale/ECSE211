@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="lock" key="selection"/>
+		<item value="Navigating" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="navigating"/>
+			<item value="WallFollowingLab"/>
+			<item value="thetaNow"/>
+			<item value="coordinateTheta"/>
 			<item value="lock"/>
 			<item value="usDistance"/>
 			<item value="usSensor"/>
 			<item value="usPort"/>
-			<item value="rightMotor"/>
-			<item value="odometryCorrection"/>
-			<item value="start"/>
-			<item value="math.PI"/>
 		</list>
 		<list key="replacehistory">
+			<item value="Lab3"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

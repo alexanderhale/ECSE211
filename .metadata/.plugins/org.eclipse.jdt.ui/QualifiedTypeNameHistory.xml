@@ -3,4 +3,6 @@
 <fullyQualifiedTypeName name="lejos.hardware.sensor.NXTLightSensor"/>
 <fullyQualifiedTypeName name="lejos.robotics.Color"/>
 <fullyQualifiedTypeName name="lejos.hardware.Sound"/>
+<fullyQualifiedTypeName name="lejos.hardware.sensor.EV3ColorSensor"/>
+<fullyQualifiedTypeName name="lejos.hardware.sensor.EV3UltrasonicSensor"/>
 </qualifiedTypeNameHistroy>
