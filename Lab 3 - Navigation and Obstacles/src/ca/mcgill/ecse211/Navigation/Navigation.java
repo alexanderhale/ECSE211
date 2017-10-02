@@ -1,5 +1,7 @@
 package ca.mcgill.ecse211.Navigation;
 
+import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 public class Navigation extends Thread {
@@ -14,6 +16,8 @@ public class Navigation extends Thread {
 	private int ROTATE_SPEED = 100;
 	private double axleWidth, wheelRadius;	// passed in on system startup
 	private double thetaNow, xNow, yNow;	// current heading
+	private double gridLength = 30.48;
+	TextLCD t;
 	
 	public Navigation (Odometer odometer, EV3LargeRegulatedMotor leftMotor,EV3LargeRegulatedMotor rightMotor,
 			double axleWidth, double wheelRadius){
@@ -25,6 +29,8 @@ public class Navigation extends Thread {
 		leftMotor.setAcceleration(500);
 		rightMotor.setAcceleration(500);
 		navigating = false;
+		
+		t = LocalEV3.get().getTextLCD();
 	}
 	
 	public void run() {
@@ -32,12 +38,7 @@ public class Navigation extends Thread {
 		while (true) {
 			updateStart = System.currentTimeMillis();
 			
-			// synchronize robot's current position
-		 	synchronized (odometer.lock) {
-				thetaNow = odometer.getTheta();
-				xNow = odometer.getX();
-				yNow = odometer.getY();
-			}
+			getCoordinates();
 			
 			// this ensures that the odometer only runs once every period
 		      updateEnd = System.currentTimeMillis();
@@ -54,23 +55,42 @@ public class Navigation extends Thread {
 		
 	}
 	
-	public void travelTo(double x, double y) {
-		// calculate distance between current position and next coordinate (uses Euclidian error)
-		double distanceToNext = Math.sqrt(Math.pow(x - xNow, 2) + Math.pow(y-yNow, 2));
+	public void travelTo(double x, double y) {	
+		getCoordinates();
+		x *= gridLength;
+		y *= gridLength;
 		
-		// calculate difference in theta required
 		double deltaX = x - xNow;
 		double deltaY = y - yNow;
 		
-		// the angle of the vector between the current position and the next position
-		double thetaToNextPoint = Math.atan(deltaY/deltaX);	
+		// calculate distance between current position and next coordinate (uses Euclidian error)
+		double distanceToNext = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 		
 		// check which direction X and Y need to change (i.e. whether we need to add or subtract pi)
+		double thetaToNextPoint;
+		if (deltaX == 0 && deltaY > 0) {
+			thetaToNextPoint = 0;
+		} else if (deltaX == 0 && deltaY < 0) {
+			thetaToNextPoint = Math.PI;
+		} else if (deltaX > 0 && deltaY == 0) {
+			thetaToNextPoint = Math.PI/2;
+		} else if (deltaX < 0 && deltaY == 0) {
+			thetaToNextPoint = 3*Math.PI/2;
+		} else {
+			// the angle of the vector between the current position and the next position
+			thetaToNextPoint = Math.atan(deltaY/deltaX);	
+		}
+		
 		if (deltaX < 0 && deltaY > 0) {
+			System.out.println("here");
 			thetaToNextPoint += Math.PI;
 		} else if (deltaX < 0 && deltaY < 0) {
 			thetaToNextPoint -= Math.PI;
 		}
+		
+		t.clear();
+		t.drawString("deltaX: " + deltaX, 0, 5);
+		t.drawString("deltaY: " + deltaY, 0, 6);
 		
 		// the difference between the robot's current heading and the heading that points
 		// to the next position
@@ -83,6 +103,12 @@ public class Navigation extends Thread {
 			differenceInTheta += 2*Math.PI;
 		}
 		
+		/*t.clear();
+		t.drawString("distance: " + distanceToNext, 0, 5);
+		t.drawString("x: " + x, 0, 6);
+		t.drawString("y: " + y, 0, 7);
+		t.drawString("deltaTheta: " + differenceInTheta*180/Math.PI, 0, 7);*/
+		
 		turnTo(differenceInTheta);
 		
 		leftMotor.setAcceleration(500);
@@ -91,19 +117,19 @@ public class Navigation extends Thread {
 		rightMotor.setSpeed(FORWARD_SPEED);
 		
 		navigating = true;
+		leftMotor.forward();
+		rightMotor.forward();
+		
 		leftMotor.rotate(convertDistance(wheelRadius,distanceToNext), true);
 		rightMotor.rotate(convertDistance(wheelRadius,distanceToNext), false);
 		
-		leftMotor.forward();
-		rightMotor.forward();
-
 		leftMotor.stop();
 		rightMotor.stop();
 		
 		navigating = false;
 	}
 	
-	public void turnTo(double theta) {
+	public void turnTo(double theta) {	
 		// slow down
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
@@ -112,9 +138,9 @@ public class Navigation extends Thread {
 		theta = theta * 180 / Math.PI;
 		
 		//turn to calculated angle
-		navigating = true;
 		int rotation = convertAngle(wheelRadius, axleWidth, theta);
 		
+		navigating = true;
 		// rotate the appropriate direction
 		if (rotation > 0) {
 			leftMotor.rotate(rotation, true);
@@ -131,6 +157,15 @@ public class Navigation extends Thread {
 	
 	public boolean isNavigating() {
 		return navigating;
+	}
+	
+	public void getCoordinates() {
+		// synchronize robot's current position
+	 	synchronized (odometer.lock) {
+			thetaNow = odometer.getTheta();
+			xNow = odometer.getX();
+			yNow = odometer.getY();
+		}
 	}
 	
 	// calculation methods
