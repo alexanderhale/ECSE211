@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;ca.mcgill.ecse211.Navigation.PController&apos; to &apos;NavigatorAvoid&apos;&#x0D;&#x0A;- Original project: &apos;Lab 3 - Navigation and Obstacles&apos;&#x0D;&#x0A;- Original element: &apos;ca.mcgill.ecse211.Navigation.PController&apos;&#x0D;&#x0A;- Renamed element: &apos;ca.mcgill.ecse211.Navigation.NavigatorAvoid&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;PController&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;ca.mcgill.ecse211.Navigation{PController.java[PController" matchStrategy="1" name="NavigatorAvoid" qualified="false" references="true" similarDeclarations="false" stamp="1506971304998" textual="false" version="1.0"/>
+</session>

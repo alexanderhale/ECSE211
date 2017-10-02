@@ -2,22 +2,25 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="theta" key="selection"/>
+		<item value="Distance" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value=""/>
-			<item value="turnTo"/>
-			<item value="usData"/>
-			<item value="lsData"/>
-			<item value="ls"/>
-			<item value="navigating"/>
-			<item value="WallFollowingLab"/>
-			<item value="thetaNow"/>
+			<item value="distance"/>
+			<item value="motorLow"/>
+			<item value="motorHigh"/>
+			<item value="initialTheta"/>
+			<item value="sensorMotor"/>
+			<item value="motorhigh"/>
+			<item value="motor_high"/>
+			<item value="followingWall"/>
 		</list>
 		<list key="replacehistory">
+			<item value="ROTATE_SPEED"/>
+			<item value="FORWARD_SPEED"/>
+			<item value="avoidingWall"/>
 			<item value="Lab3"/>
 		</list>
 	</section>
@@ -25,7 +28,7 @@
 		<item value="305" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="444" key="DIALOG_HEIGHT"/>
-		<item value="840" key="DIALOG_X_ORIGIN"/>
-		<item value="214" key="DIALOG_Y_ORIGIN"/>
+		<item value="1381" key="DIALOG_X_ORIGIN"/>
+		<item value="275" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

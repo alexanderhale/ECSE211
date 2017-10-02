@@ -5,7 +5,6 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
-// import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
@@ -14,11 +13,6 @@ public class Lab3 {
 
 	public static EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 	public static EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
-	
-	/*private static Port lsPort = LocalEV3.get().getPort("S1");
-	SensorModes lsSensor = new EV3ColorSensor(lsPort);
-	SampleProvider lsColour = lsSensor.getMode("Red");
-	float[] lsData = new float[lsSensor.sampleSize()];*/ // not used
 	
 	public static Port usPort = LocalEV3.get().getPort("S2");
     static SensorModes usSensor = new EV3UltrasonicSensor(usPort); // the instance
@@ -33,8 +27,8 @@ public class Lab3 {
 	private static final int bandWidth = 6; // Width of dead band (cm)
 	
 	// coordinates
-	static double[] x = {0, 1};
-    static double[] y = {2, 1};
+	static double[] x = {0, 1, 2, 2, 1};
+    static double[] y = {2, 1, 2, 1, 0};
 	
 	public static void main(String[] args) {    
 	    final TextLCD t = LocalEV3.get().getTextLCD();
@@ -60,8 +54,8 @@ public class Lab3 {
 	    
 	    if (buttonChoice == Button.ID_LEFT) {
 	    	// start controllers
-	    	PController pController = new PController(bandCenter, bandWidth);
-		    UltrasonicPoller usPoller = new UltrasonicPoller(usDistance, usData, pController);
+	    	NavigatorAvoid navigatorAvoid = new NavigatorAvoid(odometer, leftMotor, rightMotor, axleWidth, wheelRadius);
+		    UltrasonicPoller usPoller = new UltrasonicPoller(usDistance, usData, navigatorAvoid);
 		    
 		  //start odometer, display, navigator and sensor
 			odometer.start();

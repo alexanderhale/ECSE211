@@ -11,13 +11,14 @@ public class Navigation extends Thread {
 	boolean navigating;
 	private static final long ODOMETER_PERIOD = 25; /*odometer update period, in ms*/
 	
+	TextLCD t;
+	
 	// constants
 	private int FORWARD_SPEED = 200;
 	private int ROTATE_SPEED = 100;
 	private double axleWidth, wheelRadius;	// passed in on system startup
 	private double thetaNow, xNow, yNow;	// current heading
 	private double gridLength = 30.48;
-	TextLCD t;
 	
 	public Navigation (Odometer odometer, EV3LargeRegulatedMotor leftMotor,EV3LargeRegulatedMotor rightMotor,
 			double axleWidth, double wheelRadius){
@@ -29,8 +30,6 @@ public class Navigation extends Thread {
 		leftMotor.setAcceleration(500);
 		rightMotor.setAcceleration(500);
 		navigating = false;
-		
-		t = LocalEV3.get().getTextLCD();
 	}
 	
 	public void run() {
@@ -52,64 +51,30 @@ public class Navigation extends Thread {
 		        }
 		      }
 		}
-		
 	}
 	
 	public void travelTo(double x, double y) {	
-		getCoordinates();
+		// getCoordinates();
 		x *= gridLength;
 		y *= gridLength;
 		
 		double deltaX = x - xNow;
 		double deltaY = y - yNow;
 		
-		// calculate distance between current position and next coordinate (uses Euclidian error)
-		double distanceToNext = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+		// calculate distance between current position and next coordinate
+		double distanceToNext = Math.hypot(deltaX, deltaY);
 		
-		// check which direction X and Y need to change (i.e. whether we need to add or subtract pi)
-		double thetaToNextPoint;
-		if (deltaX == 0 && deltaY > 0) {
-			thetaToNextPoint = 0;
-		} else if (deltaX == 0 && deltaY < 0) {
-			thetaToNextPoint = Math.PI;
-		} else if (deltaX > 0 && deltaY == 0) {
-			thetaToNextPoint = Math.PI/2;
-		} else if (deltaX < 0 && deltaY == 0) {
-			thetaToNextPoint = 3*Math.PI/2;
-		} else {
-			// the angle of the vector between the current position and the next position
-			thetaToNextPoint = Math.atan(deltaY/deltaX);	
-		}
-		
-		if (deltaX < 0 && deltaY > 0) {
-			System.out.println("here");
-			thetaToNextPoint += Math.PI;
-		} else if (deltaX < 0 && deltaY < 0) {
-			thetaToNextPoint -= Math.PI;
-		}
-		
-		t.clear();
-		t.drawString("deltaX: " + deltaX, 0, 5);
-		t.drawString("deltaY: " + deltaY, 0, 6);
-		
-		// the difference between the robot's current heading and the heading that points
-		// to the next position
-		double differenceInTheta = thetaToNextPoint - thetaNow;
+		// calculate angle between current position and next coodinate
+		double thetaToNextPoint = Math.atan2(deltaX, deltaY) - thetaNow;
 		
 		// ensure the robot rotates the least amount necessary
-		if (differenceInTheta > Math.PI) {
-			differenceInTheta -= 2*Math.PI;
-		} else if (differenceInTheta < -(Math.PI)){
-			differenceInTheta += 2*Math.PI;
+		if (thetaToNextPoint > Math.PI) {
+			thetaToNextPoint -= 2*Math.PI;
+		} else if (thetaToNextPoint < -(Math.PI)){
+			thetaToNextPoint += 2*Math.PI;
 		}
 		
-		/*t.clear();
-		t.drawString("distance: " + distanceToNext, 0, 5);
-		t.drawString("x: " + x, 0, 6);
-		t.drawString("y: " + y, 0, 7);
-		t.drawString("deltaTheta: " + differenceInTheta*180/Math.PI, 0, 7);*/
-		
-		turnTo(differenceInTheta);
+		turnTo(thetaToNextPoint);
 		
 		leftMotor.setAcceleration(500);
 		rightMotor.setAcceleration(500);
@@ -135,20 +100,15 @@ public class Navigation extends Thread {
 		rightMotor.setSpeed(ROTATE_SPEED);
 		
 		//convert to degrees
-		theta = theta * 180 / Math.PI;
+		theta = Math.toDegrees(theta);
 		
 		//turn to calculated angle
 		int rotation = convertAngle(wheelRadius, axleWidth, theta);
 		
 		navigating = true;
-		// rotate the appropriate direction
-		if (rotation > 0) {
-			leftMotor.rotate(rotation, true);
-			rightMotor.rotate(-rotation, false);
-		} else {
-			leftMotor.rotate(-rotation, true);
-			rightMotor.rotate(rotation, false);
-		}
+		// rotate the appropriate direction (sign on theta accounts for direction
+		leftMotor.rotate(rotation, true);
+		rightMotor.rotate(-rotation, false);
 		navigating = false;
 		
 		leftMotor.stop();
