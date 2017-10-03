@@ -58,32 +58,21 @@ public class Lab3 {
 			odometryDisplay.start();
 			usPoller.start();
 			navigatorAvoid.start();
-			
-		    // travel to all the points
-		    for (int i = 0; i < x.length; i++) {
-		    	navigatorAvoid.travelTo(x[i], y[i]);
-		    	
-		    	while (navigatorAvoid.isNavigating()) {
-		    		// do nothing until the robot is done travelling
-		    		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
-		    		System.exit(0);
-		    	}
-		    }
 	    } else {
 	    	odometer.start();
 			odometryDisplay.start();
 			navigation.start();
-			
-		    // travel to all the points
-		    for (int i = 0; i < x.length; i++) {
-		    	navigation.travelTo(x[i], y[i]);
-		    	
-		    	while (navigation.isNavigating()) {
-		    		// do nothing until the robot is done travelling
-		    		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
-		    		System.exit(0);
-		    	}
-		    }
+	    }
+	    
+	    // travel to all the points
+	    for (int i = 0; i < x.length; i++) {
+	    	navigation.travelTo(x[i], y[i]);
+	    	
+	    	while (navigation.isNavigating()) {
+	    		// do nothing until the robot is done travelling
+	    		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
+	    		System.exit(0);
+	    	}
 	    }
 	    
 	    // Wait here forever until button pressed to terminate

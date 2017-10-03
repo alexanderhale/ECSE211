@@ -3,15 +3,18 @@ package ca.mcgill.ecse211.Navigation;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.hardware.sensor.SensorModes;
+import lejos.robotics.SampleProvider;
 
-public class Navigation extends Thread {
+public class NavigatorAvoid extends Thread implements UltrasonicController {
 	
 	private Odometer odometer;
 	private EV3LargeRegulatedMotor leftMotor, rightMotor;
+	final TextLCD t = LocalEV3.get().getTextLCD();
 	boolean navigating;
 	private static final long ODOMETER_PERIOD = 25; /*odometer update period, in ms*/
-	
-	TextLCD t;
 	
 	// constants
 	private int FORWARD_SPEED = 200;
@@ -19,8 +22,21 @@ public class Navigation extends Thread {
 	private double axleWidth, wheelRadius;	// passed in on system startup
 	private double thetaNow, xNow, yNow;	// current heading
 	private double gridLength = 30.48;
+	private boolean avoidingWall = false;
+	private int filterCount = 0;
+	private int[] filterStorage = new int[5];
+	private int filterControl = 0;
+	private static final int FILTER_OUT = 35;
+	private int tooCloseControl = 0;
+	private final int bandCenter = 20;
+	private final int bandWidth = 6;
 	
-	public Navigation (Odometer odometer, EV3LargeRegulatedMotor leftMotor,EV3LargeRegulatedMotor rightMotor,
+	// variables
+	private int distance;
+	private int avgDistance = 20;
+	
+	
+	public NavigatorAvoid (Odometer odometer, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
 			double axleWidth, double wheelRadius){
 		this.odometer = odometer;
 		this.leftMotor = leftMotor;
@@ -90,7 +106,6 @@ public class Navigation extends Thread {
 		
 		leftMotor.stop();
 		rightMotor.stop();
-		
 		navigating = false;
 	}
 	
@@ -135,4 +150,91 @@ public class Navigation extends Thread {
 	private static int convertAngle(double radius, double width, double angle) {
 		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}
+	
+	@Override
+	  public void processUSData(int distance) {
+		// rudimentary filter - toss out invalid samples corresponding to null signal 
+	    if (distance >= 255 && filterControl < FILTER_OUT) {
+	      // bad value: do not set the distance var, do increment the filter value
+	      this.filterControl++;
+	    } else if (distance >= 255) {
+	      // We have repeated large values, so there must actually be nothing
+	      // there: leave the distance alone
+	      this.distance = distance;
+	    } else {
+	      // distance went below 255: reset filter and leave
+	      // distance alone.
+	      this.filterControl = 0;
+	      this.distance = distance;
+	    }
+	    
+	    //also need to consider the robot get out of the court during avioding
+	    
+	    t.drawString("US reading:            ", 0, 5);
+	    t.drawString("US reading: " + distance, 0, 5);
+	    
+	    /*boolean needAvoid = true;
+	    
+		while(distance < 10 && needAvoid) {
+			// turn 90 degrees right
+			turnTo(Math.PI/2);
+			
+			// move half a block forward
+			leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+			rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
+			
+			// repeat the following until the robot is back on the intended path
+				// turn 90 degrees left
+			turnTo(Math.PI/-2);
+				// if distance < 10, turn 90 degrees right and move 1/2 block forward
+			if(this.distance < 10) {
+				continue;
+			}
+			else if(this.distance >= 10) {
+				// if distance > 10, move 1/2 block forward
+				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
+				//now the barrier on the right.
+				turnTo(Math.PI/-2);
+				
+			}
+			//after two turns happens, check the angle, when = theta before avoidance
+			needAvoid = false;
+		}*/
+		double originalTheta = 0;
+		if (this.distance < 10) {
+			originalTheta = thetaNow;
+			// turn 90 degrees right
+			turnTo(Math.PI/2);
+			
+			// move half a block forward
+			leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+			rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
+		}
+		while (thetaNow >= originalTheta - Math.PI/2) {
+			// turn 90 degrees left
+			turnTo(-Math.PI/2);
+			
+			// check if the block is there
+			if (this.distance <= 10) {
+				// turn 90 degrees right
+				turnTo(Math.PI/2);
+				
+				// move half a block forward
+				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
+			} else {
+				// move half a block forward
+				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
+			}
+		}
+		
+		
+	  }
+
+	  @Override
+	  public int readUSDistance() {
+	    return this.distance;
+	  }
 }

@@ -173,12 +173,9 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);*/
 			
-			avoidingWall = true;
+			
 			
 			////// HARDCODING //////
-			leftMotor.stop();
-			rightMotor.stop();
-			
 			// turn 90 degrees right
 			turnTo(Math.PI/2);
 			
@@ -186,9 +183,6 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
 			
-			leftMotor.stop();
-			rightMotor.stop();
-			
 			// turn 90 degrees left
 			turnTo(-Math.PI/2);
 			
@@ -196,18 +190,12 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
 			
-			leftMotor.stop();
-			rightMotor.stop();
-			
 			// turn 90 degrees left
 			turnTo(-Math.PI/2);
 			
 			// move 3/4 of a block forward
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
 			
 			// turn 90 degrees right
 			turnTo(Math.PI/2);
@@ -249,8 +237,8 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
 				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
 			}
-		}*/
-		avoidingWall = false;
+		}
+		avoidingWall = false;*/
 	  }
 
 	  @Override

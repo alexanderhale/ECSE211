@@ -64,7 +64,7 @@ public class Navigation extends Thread {
 		// calculate distance between current position and next coordinate
 		double distanceToNext = Math.hypot(deltaX, deltaY);
 		
-		// calculate angle between current position and next coordinate
+		// calculate angle between current position and next coodinate
 		double thetaToNextPoint = Math.atan2(deltaX, deltaY) - thetaNow;
 		
 		// ensure the robot rotates the least amount necessary

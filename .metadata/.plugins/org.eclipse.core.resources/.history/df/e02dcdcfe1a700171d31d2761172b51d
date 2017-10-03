@@ -3,6 +3,10 @@ package ca.mcgill.ecse211.Navigation;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.hardware.sensor.SensorModes;
+import lejos.robotics.SampleProvider;
 
 public class NavigatorAvoid extends Thread implements UltrasonicController {
 	
@@ -19,11 +23,18 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 	private double thetaNow, xNow, yNow;	// current heading
 	private double gridLength = 30.48;
 	private boolean avoidingWall = false;
+	private int filterCount = 0;
+	private int[] filterStorage = new int[5];
 	private int filterControl = 0;
 	private static final int FILTER_OUT = 35;
+	private int tooCloseControl = 0;
+	private final int bandCenter = 20;
+	private final int bandWidth = 6;
 	
 	// variables
 	private int distance;
+	private int avgDistance = 20;
+	
 	
 	public NavigatorAvoid (Odometer odometer, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
 			double axleWidth, double wheelRadius){
@@ -173,12 +184,9 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);*/
 			
-			avoidingWall = true;
+			
 			
 			////// HARDCODING //////
-			leftMotor.stop();
-			rightMotor.stop();
-			
 			// turn 90 degrees right
 			turnTo(Math.PI/2);
 			
@@ -186,28 +194,12 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
 			
-			leftMotor.stop();
-			rightMotor.stop();
-			
 			// turn 90 degrees left
 			turnTo(-Math.PI/2);
 			
 			// move 3/4 of a block forward
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees left
-			turnTo(-Math.PI/2);
-			
-			// move 3/4 of a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
 			
 			// turn 90 degrees right
 			turnTo(Math.PI/2);
@@ -249,8 +241,8 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
 				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
 			}
-		}*/
-		avoidingWall = false;
+		}
+		avoidingWall = false;*/
 	  }
 
 	  @Override

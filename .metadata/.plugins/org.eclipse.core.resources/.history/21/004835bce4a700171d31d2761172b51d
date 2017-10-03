@@ -173,7 +173,7 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);*/
 			
-			avoidingWall = true;
+			
 			
 			////// HARDCODING //////
 			leftMotor.stop();

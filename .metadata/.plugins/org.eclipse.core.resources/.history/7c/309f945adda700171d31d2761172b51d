@@ -3,6 +3,10 @@ package ca.mcgill.ecse211.Navigation;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.hardware.sensor.SensorModes;
+import lejos.robotics.SampleProvider;
 
 public class NavigatorAvoid extends Thread implements UltrasonicController {
 	
@@ -19,11 +23,18 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 	private double thetaNow, xNow, yNow;	// current heading
 	private double gridLength = 30.48;
 	private boolean avoidingWall = false;
+	private int filterCount = 0;
+	private int[] filterStorage = new int[5];
 	private int filterControl = 0;
 	private static final int FILTER_OUT = 35;
+	private int tooCloseControl = 0;
+	private final int bandCenter = 20;
+	private final int bandWidth = 6;
 	
 	// variables
 	private int distance;
+	private int avgDistance = 20;
+	
 	
 	public NavigatorAvoid (Odometer odometer, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
 			double axleWidth, double wheelRadius){
@@ -162,74 +173,45 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 	    t.drawString("US reading:            ", 0, 5);
 	    t.drawString("US reading: " + this.distance, 0, 5);
 	    
-		//double originalTheta = 0;
-		if (this.distance < 10 && this.distance > 0 && !avoidingWall) {
-			/*originalTheta = thetaNow;
-			avoidingWall = true;
+	    /*boolean needAvoid = true;
+	    
+		while(distance < 10 && needAvoid) {
 			// turn 90 degrees right
 			turnTo(Math.PI/2);
 			
 			// move half a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);*/
+			leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+			rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
 			
-			avoidingWall = true;
-			
-			////// HARDCODING //////
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees right
-			turnTo(Math.PI/2);
-			
-			// move half a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees left
-			turnTo(-Math.PI/2);
-			
-			// move 3/4 of a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees left
-			turnTo(-Math.PI/2);
-			
-			// move 3/4 of a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees right
-			turnTo(Math.PI/2);
-		}
-		/*if (avoidingWall && thetaNow >= originalTheta - Math.PI/2) {
-			// turn 90 degrees left
-			turnTo(-Math.PI/2);
-			
-			if (this.distance <= 10) {
-				// turn 90 degrees right
-				turnTo(Math.PI/2);
-				
-				// move half a block forward
-				leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-				rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			} else {
-				// move half a block forward
-				leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-				rightMotor.rotate(convertDistance(wheelRadius, gridLength/4), false);
+			// repeat the following until the robot is back on the intended path
+				// turn 90 degrees left
+			turnTo(Math.PI/-2);
+				// if distance < 10, turn 90 degrees right and move 1/2 block forward
+			if(this.distance < 10) {
+				continue;
 			}
+			else if(this.distance >= 10) {
+				// if distance > 10, move 1/2 block forward
+				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
+				//now the barrier on the right.
+				turnTo(Math.PI/-2);
+				
+			}
+			//after two turns happens, check the angle, when = theta before avoidance
+			needAvoid = false;
+		}*/
+		double originalTheta = 0;
+		if (this.distance < 10 && this.distance > 0) {
+			originalTheta = thetaNow;
+			avoidingWall = true;
+			// turn 90 degrees right
+			turnTo(Math.PI/2);
+			
+			// move half a block forward
+			leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+			rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
 		}
-		
 		while ((thetaNow >= originalTheta - Math.PI/2) && avoidingWall == true) {
 			t.drawString("while loop", 0, 6);
 			
@@ -249,8 +231,10 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
 				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
 			}
-		}*/
+		}
 		avoidingWall = false;
+		
+		
 	  }
 
 	  @Override
