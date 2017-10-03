@@ -27,8 +27,8 @@ public class Lab3 {
 	private static final int bandWidth = 6; // Width of dead band (cm)
 	
 	// coordinates
-	static double[] x = {0, 1, 2, 2, 1};
-    static double[] y = {2, 1, 2, 1, 0};
+	static double[] x = {0, 1, 1, 2, 2};
+    static double[] y = {1, 2, 0, 1, 2};
 	
 	public static void main(String[] args) {    
 	    final TextLCD t = LocalEV3.get().getTextLCD();

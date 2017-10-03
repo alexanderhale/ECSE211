@@ -35,6 +35,7 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 	private int distance;
 	private int avgDistance = 20;
 	
+	
 	public NavigatorAvoid (Odometer odometer, EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
 			double axleWidth, double wheelRadius){
 		this.odometer = odometer;
@@ -202,9 +203,14 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 	    }
 	    */
 	    
+	    //also need to consider the robot get out of the court during avioding
+	    
 	    t.drawString("US reading:            ", 0, 5);
 	    t.drawString("US reading: " + distance, 0, 5);
-		if (distance < 10) {
+	    
+	    boolean needAvoid = true;
+	    
+		while(distance < 10 && needAvoid) {
 			// turn 90 degrees right
 			turnTo(Math.PI/2);
 			
@@ -214,8 +220,21 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 			
 			// repeat the following until the robot is back on the intended path
 				// turn 90 degrees left
+			turnTo(Math.PI/-2);
 				// if distance < 10, turn 90 degrees right and move 1/2 block forward
+			if(distance < 10) {
+				continue;
+			}
+			else if(distance >= 10) {
 				// if distance > 10, move 1/2 block forward
+				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
+				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
+				//now the barrier on the right.
+				turnTo(Math.PI/-2);
+				
+			}
+			//after two turns happens, check the angle, when = theta before avoidance
+			needAvoid = false;
 		}
 	  }
 
