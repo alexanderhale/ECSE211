@@ -157,65 +157,26 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 	      this.distance = distance;
 	    }
 	    
-	    //also need to consider the robot get out of the court during avioding
-	    
 	    t.drawString("US reading:            ", 0, 5);
 	    t.drawString("US reading: " + this.distance, 0, 5);
 	    
-		//double originalTheta = 0;
+		double originalTheta = 0;	// note down original heading
 		if (this.distance < 10 && this.distance > 0 && !avoidingWall) {
-			/*originalTheta = thetaNow;
+			originalTheta = thetaNow;
 			avoidingWall = true;
 			// turn 90 degrees right
 			turnTo(Math.PI/2);
 			
 			// move half a block forward
 			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);*/
-			
-			avoidingWall = true;
-			
-			////// HARDCODING //////
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees right
-			turnTo(Math.PI/2);
-			
-			// move half a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees left
-			turnTo(-Math.PI/2);
-			
-			// move 3/4 of a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees left
-			turnTo(-Math.PI/2);
-			
-			// move 3/4 of a block forward
-			leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-			rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
-			
-			leftMotor.stop();
-			rightMotor.stop();
-			
-			// turn 90 degrees right
-			turnTo(Math.PI/2);
 		}
-		/*if (avoidingWall && thetaNow >= originalTheta - Math.PI/2) {
+		// if we're still avoiding a block AND we haven't gotten back to original heading
+		if (avoidingWall && thetaNow >= originalTheta - Math.PI/2) {
 			// turn 90 degrees left
 			turnTo(-Math.PI/2);
 			
+			// if a block is still detected, turn and continue moving alongside it
 			if (this.distance <= 10) {
 				// turn 90 degrees right
 				turnTo(Math.PI/2);
@@ -223,13 +184,22 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 				// move half a block forward
 				leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
 				rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
+				
+				// leftMotor.stop();
+				// rightMotor.stop();
 			} else {
-				// move half a block forward
+				// if no block is seen, move half a block forward
 				leftMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), true);
-				rightMotor.rotate(convertDistance(wheelRadius, gridLength/4), false);
+				rightMotor.rotate(convertDistance(wheelRadius, 3*gridLength/4), false);
+				
+				// leftMotor.stop();
+				// rightMotor.stop();
 			}
 		}
 		
+		// this while loop is buggy and prevents other threads from operating while the program is within it
+		// it is also a duplicate of the if statement above
+		// ran out of time to fix this!
 		while ((thetaNow >= originalTheta - Math.PI/2) && avoidingWall == true) {
 			t.drawString("while loop", 0, 6);
 			
@@ -249,7 +219,9 @@ public class NavigatorAvoid extends Thread implements UltrasonicController {
 				leftMotor.rotate(convertDistance(wheelRadius, gridLength/2), true);
 				rightMotor.rotate(convertDistance(wheelRadius, gridLength/2), false);
 			}
-		}*/
+		}
+		// when the while loop is removed, this should be placed inside the second if statement
+			// with another if condition around it
 		avoidingWall = false;
 	  }
 

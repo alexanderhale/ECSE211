@@ -23,8 +23,8 @@ public class Lab3 {
 	public static double axleWidth = 12.7, wheelRadius = 2.125;
 	
 	// coordinates
-	static double[] x = {1, 2, 2, 0, 1};
-    static double[] y = {0, 1, 2, 2, 1};
+	static double[] x = {0, 1, 1, 2, 2};
+    static double[] y = {1, 2, 0, 1, 2};
 	
 	public static void main(String[] args) {    
 	    final TextLCD t = LocalEV3.get().getTextLCD();
