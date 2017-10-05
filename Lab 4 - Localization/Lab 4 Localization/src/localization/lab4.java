@@ -12,7 +12,7 @@ public class lab4 {
 	private static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 	private static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 	private static final Port usPort = LocalEV3.get().getPort("S2");		
-	private static final Port colorPort = LocalEV3.get().getPort("S1");		
+	private static final Port lightPort = LocalEV3.get().getPort("S1");		
 	
 	public static void main(String[] args) {
 		// US sensor setting up
@@ -23,9 +23,9 @@ public class lab4 {
 		
 		
 		// color sensor setting up
-		SensorModes colorSensor = new EV3ColorSensor(colorPort);
-		SampleProvider colorValue = colorSensor.getMode("Red");			// provides samples from this instance
-		float[] colorData = new float[colorValue.sampleSize()];			// buffer in which data are returned
+		SensorModes lightSensor = new EV3ColorSensor(lightPort);
+		SampleProvider lightValue = lightSensor.getMode("Red");			// provides samples from this instance
+		float[] lightData = new float[lightValue.sampleSize()];			// buffer in which data are returned
 				
 		
 		
