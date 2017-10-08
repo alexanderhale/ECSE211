@@ -2,6 +2,7 @@ package localization;
 
 import lejos.hardware.*;
 import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.*;
@@ -16,6 +17,8 @@ public class lab4 {
 	public static final double axleWidth = 12.7, wheelRadius = 2.125;
 	
 	public static void main(String[] args) {
+		final TextLCD display = LocalEV3.get().getTextLCD();
+		int buttonPress;
 		// US sensor setting up
 		@SuppressWarnings("resource")							    	// do not bother to close this resource
 		SensorModes usSensor = new EV3UltrasonicSensor(usPort);
@@ -31,19 +34,22 @@ public class lab4 {
 		
 		//set up odometer, navigation, usLoc and lsLoc, LcdInfo
 		
+		Odometer odometer = new Odometer(leftMotor, rightMotor);
 		
+		Navigation navigation = new Navigation(odometer, leftMotor, rightMotor, axleWidth, wheelRadius);
 	
 				
 		USLocalizer usLoc = new USLocalizer(usValue, usData, leftMotor, rightMotor, navigation, 
-				odom, USLocalizer.LocalizationType.RISING_EDGE);
+				odometer, USLocalizer.LocalizationType.RISING_EDGE);
 		
-		LSLocalizer lsLoc = new LSLcalizer();
+		LightLocalizer lsLoc = new LightLocalizer();
+		LCDInfo lcd = new LCDInfo();
 		
 		
 		
 		usLoc.doLoc();
 		while(Button.waitForAnyPress() != 1){
-			lsLoc.doLoc();
+			//lsLoc.doLoc();
 		}
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);	

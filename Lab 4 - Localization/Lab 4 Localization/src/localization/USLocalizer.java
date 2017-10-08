@@ -1,14 +1,13 @@
 package localization;
 
-import lejos.hardware.Button;
+import lejos.hardware.Sound;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.robotics.SampleProvider;
-import localization.USLocalizer.LocalizationType;
 
 public class USLocalizer {
 	public enum LocalizationType { FALLING_EDGE, RISING_EDGE };
 	public static int rotateSpeed = 50;
-	private Odometer odom;
+	private Odometer odometer;
 	private SampleProvider usValue;
 	private Navigation navigation;
 	private float[] usData;
@@ -18,8 +17,8 @@ public class USLocalizer {
 
 	
 	public USLocalizer(SampleProvider usValue, float[] usData, EV3LargeRegulatedMotor leftMotor, 
-			EV3LargeRegulatedMotor rightMotor, Navigation navigation, Odometer odom, LocalizationType locType) {
-		this.odom = odom;
+			EV3LargeRegulatedMotor rightMotor, Navigation navigation, Odometer odometer, LocalizationType locType) {
+		this.odometer = odometer;
 		this.usValue = usValue;
 		this.usData = usData;
 		this.locType = locType;
@@ -35,6 +34,8 @@ public class USLocalizer {
 		//set the speed
 		leftMotor.setSpeed(rotateSpeed);
 		rightMotor.setSpeed(rotateSpeed);
+		
+		
 
 	
 		
