@@ -12,10 +12,12 @@
 		<item value="true" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\Alex\Documents\McGill\ECSE 211\Labs\ECSE211\Lab 4 - Localization\Lab 4 Localization"/>
 			<item value="C:\Users\Alex\Documents\McGill\ECSE 211\Labs\ECSE211\Lab 2 - Odometry\LAB 2\OdometryLab"/>
 			<item value=""/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
 			<item value="C:\Users\Alex\Documents\McGill\ECSE 211\Labs\ECSE211\Lab 2 - Odometry\LAB 2\OdometryLab\OdometryLab.jar"/>
 			<item value="C:\Program Files\leJOS EV3\samples.zip"/>
 		</list>

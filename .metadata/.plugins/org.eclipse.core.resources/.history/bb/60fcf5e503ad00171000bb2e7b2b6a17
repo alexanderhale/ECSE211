@@ -1,0 +1,48 @@
+package localization;
+
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+
+public class LightLocalizer {
+	// constants
+	private final double f = 3.25;	// distance between light sensor and wheels
+	public static int forwardSpeed = 100;
+	// TODO remeasure this ^^
+	
+	Odometer odometer;
+	private EV3LargeRegulatedMotor leftMotor, rightMotor;
+	
+	public LightLocalizer(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, Odometer odometer) {
+		this.odometer = odometer;
+		this.leftMotor = leftMotor;
+		this.rightMotor = rightMotor;
+	}
+	
+	public void doLoc(){
+		// assuming light sensor is in front of wheels, and starting oriented at 0deg somewhere in bottom left square
+		leftMotor.setSpeed(forwardSpeed);
+		rightMotor.setSpeed(forwardSpeed);
+		
+		
+		// move forward until a line is detected, stop
+		
+		
+		// turn 90deg clockwise
+		// move forward until a line is detected, stop
+		// move f cm forward
+		// turn 90deg counterclockwise
+		// move f cm forward
+		
+		// done => zero odometer values
+		this.odometer.setX(0);
+		this.odometer.setY(0);
+		this.odometer.setTheta(0);
+	}
+	
+	// calculation methods
+	private static int convertDistance(double radius, double distance) {
+		return (int) ((180.0 * distance) / (Math.PI * radius));
+	}
+	private static int convertAngle(double radius, double width, double angle) {
+		return convertDistance(radius, Math.PI * width * angle / 360.0);
+	}
+}

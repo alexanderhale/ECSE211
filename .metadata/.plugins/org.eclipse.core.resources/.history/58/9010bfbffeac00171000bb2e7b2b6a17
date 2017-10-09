@@ -1,0 +1,105 @@
+package localization;
+
+import lejos.hardware.Sound;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.robotics.SampleProvider;
+
+public class USLocalizer implements UltrasonicController {
+	public enum LocalizationType { FALLING_EDGE, RISING_EDGE };
+	public static int rotateSpeed = 50;
+	private Odometer odometer;
+	private SampleProvider usValue;
+	private Navigation navigation;
+	private float[] usData;
+	private LocalizationType locType;
+	private EV3LargeRegulatedMotor leftMotor, rightMotor;
+	private int wallDis = 30;
+	
+	// constants
+	private int FORWARD_SPEED = 200;
+	private int ROTATE_SPEED = 50;
+	private double axleWidth, wheelRadius;	// passed in on system startup
+	private double gridLength = 30.48;
+	private int filterControl = 0;
+	private static final int FILTER_OUT = 35;
+	
+	// variables
+	private int distance;
+
+	
+	public USLocalizer(SampleProvider usValue, float[] usData, EV3LargeRegulatedMotor leftMotor, 
+			EV3LargeRegulatedMotor rightMotor, LocalizationType locType) {
+		// this.odometer = odometer;
+		this.usValue = usValue;
+		this.usData = usData;
+		this.locType = locType;
+		this.leftMotor = leftMotor;
+		this.rightMotor = rightMotor;
+		// this.navigation = navigation;
+	}
+	
+	
+	public void doLoc(){
+		double angleA, angleB, adjAngle;	
+		
+		//set the speed
+		leftMotor.setSpeed(rotateSpeed);
+		rightMotor.setSpeed(rotateSpeed);
+		
+		// rotate clockwise
+		leftMotor.forward();
+		rightMotor.backward();
+		
+		// if falling edge
+		if (this.locType == LocalizationType.FALLING_EDGE) {
+			// wait for first falling edge (must fall really far to avoid drop-off at corner)
+			
+			
+			// record angle
+			// turn counterclockwise until next falling edge
+			// record angle
+			// calculate middle of those two angles, then rotate there
+			// we're now (hopefully) pointing toward the corner. Rotate 135deg clockwise to get to 0deg
+		} 
+		// if rising edge
+		else {
+			// wait for first rising edge
+			// record angle
+			// turn counterclockwise until next rising edge
+			// record angle
+			// calculate middle of those two angles, then rotate there
+			// we're now (hopefully) pointing toward (0, 0). Rotate 45deg counterclockwise to get to 0deg
+		}
+	}
+	
+	@Override
+    public void processUSData (int distance) {
+		// rudimentary filter - toss out invalid samples corresponding to null signal 
+	    if (distance >= 255 && filterControl < FILTER_OUT) {
+	      // bad value: do not set the distance var, do increment the filter value
+	      this.filterControl++;
+	    } else if (distance >= 255) {
+	      // We have repeated large values, so there must actually be nothing
+	      // there: leave the distance alone
+	      this.distance = distance;
+	    } else {
+	      // distance went below 255: reset filter and leave
+	      // distance alone.
+	      this.filterControl = 0;
+	      this.distance = distance;
+	    }
+	}
+	
+	@Override
+	public int readUSDistance() {
+	  return this.distance;
+	}
+	
+	// calculation methods
+	private static int convertDistance(double radius, double distance) {
+		return (int) ((180.0 * distance) / (Math.PI * radius));
+	}
+	private static int convertAngle(double radius, double width, double angle) {
+		return convertDistance(radius, Math.PI * width * angle / 360.0);
+	}
+}

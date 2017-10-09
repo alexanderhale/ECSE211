@@ -2,22 +2,24 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Distance" key="selection"/>
+		<item value="leftMotor" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="leftMotor"/>
+			<item value="rightMotor"/>
 			<item value="distance"/>
 			<item value="motorLow"/>
 			<item value="motorHigh"/>
 			<item value="initialTheta"/>
 			<item value="sensorMotor"/>
 			<item value="motorhigh"/>
-			<item value="motor_high"/>
-			<item value="followingWall"/>
 		</list>
 		<list key="replacehistory">
+			<item value="this.leftMotor"/>
+			<item value="this.rightMotor"/>
 			<item value="ROTATE_SPEED"/>
 			<item value="FORWARD_SPEED"/>
 			<item value="avoidingWall"/>

@@ -1,0 +1,20 @@
+package localization;
+
+public class LightLocalizer {
+	
+	
+	public void doLoc(){
+		// assuming light sensor is in front of wheels, and starting oriented at 0deg somewhere in bottom left square
+		
+		// let d be the distance between the light sensor and the wheels
+		
+		// move forward until a line is detected, stop
+		// turn 90deg clockwise
+		// move forward until a line is detected, stop
+		// move d cm forward
+		// turn 90deg counterclockwise
+		// move d cm forward
+		// done!
+	}
+
+}
