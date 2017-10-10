@@ -112,8 +112,6 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                ",  0,  4);
 			display.drawString("first wall found", 0, 4);
 
-			//this.leftMotor.stop();
-			//this.rightMotor.stop();
 			this.leftMotor.setSpeed(0);
 			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
@@ -152,7 +150,20 @@ public class USLocalizer implements UltrasonicController {
 			
 			// rotate to (hopefully) 0deg
 			// TODO: the angle we turning is not correct(too large)
-			this.turnTo(angleB + (Math.abs(angleB - angleA)/2) + 3*Math.PI/4);
+			display.clear();
+			display.drawString("angleA: " + angleA, 0, 4);
+			display.drawString("angleB: " + angleB, 0, 5);
+			
+			double deltaAngle = (angleA + angleB)/2.0;
+			if (angleB > angleA) {
+				deltaAngle = 5*Math.PI/4 - deltaAngle;
+			} else {
+				deltaAngle = Math.PI/4 - deltaAngle;
+			}
+			
+			display.drawString("turnTo: " + (angleB + deltaAngle), 0, 7);
+			// this.turnTo(angleB + (Math.abs(angleB - angleA)/2) + 3*Math.PI/4);
+			this.turnTo(angleB + deltaAngle);
 			this.odometer.setTheta(0);
 			display.drawString("                  ", 0, 4);
 			Sound.playNote(Sound.FLUTE, 880, 250);

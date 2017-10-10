@@ -15,7 +15,6 @@ public class USLocalizer implements UltrasonicController {
 	final TextLCD display = LocalEV3.get().getTextLCD();
 	
 	// constants
-	private double axleWidth, wheelRadius;	// passed in on system startup
 	private int filterControl = 0;
 	private static final int FILTER_OUT = 35;
 	private int d = 40;	// drop-off point
@@ -23,7 +22,6 @@ public class USLocalizer implements UltrasonicController {
 	
 	// variables
 	private int distance;
-
 	
 	public USLocalizer(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, 
 			Odometer odometer, LocalizationType locType) {
@@ -35,7 +33,7 @@ public class USLocalizer implements UltrasonicController {
 	
 	
 	public void doLoc(){
-		double angleA, angleB, adjAngle;	
+		double angleA, angleB;	
 		
 		//set the speed and acceleration
 		this.leftMotor.setSpeed(rotateSpeed);
@@ -57,15 +55,22 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                ",  0,  4);
 			display.drawString("first wall found", 0, 4);
 			
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			//this.leftMotor.stop();
+			//this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleA = this.odometer.getTheta();
 			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
+			
 			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
 			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
+			
+			
 			
 			// turn counterclockwise until next falling edge
 			this.leftMotor.backward();
@@ -78,29 +83,28 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                 ",  0,  4);
 			display.drawString("second wall found", 0, 4);
 			
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			//this.leftMotor.stop();
+			//this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleB = this.odometer.getTheta();
 			
-			// calculate middle of those two angles
-			// adjAngle = angleA + (angleB - angleA)/2;		// TODO: really needed?
-			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
 			// rotate to (hopefully) 0deg
-			turnTo(angleB - ((angleB - angleA)/2) + 3*Math.PI/4);
+			// TODO: the angle we turning is too large, check the method
+			turnTo(angleB - ((Math.abs(angleB - angleA))/2) + 3*Math.PI/4);
+			
 			this.odometer.setTheta(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 		}
 		
 		// if rising edge
-		else {
-			turnTo(90);
-			while (Button.waitForAnyPress() != Button.ID_ESCAPE);
-			System.exit(0);	
-			
-			// keep turning until 
+		else {			
+			// keep turning until wall drops away
 			while (this.distance <= d + k) {
 				 //keep turning
 				display.drawString("looking for end", 0, 4);
@@ -108,12 +112,15 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                ",  0,  4);
 			display.drawString("first wall found", 0, 4);
 
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleA = this.odometer.getTheta();
+			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
 			
 			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), true);
 			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), false);
@@ -122,28 +129,43 @@ public class USLocalizer implements UltrasonicController {
 			this.leftMotor.backward();
 			this.rightMotor.forward();
 			
-			//I change the sign here, please check
+			display.drawString("looking for end of wall", 0, 4);
 			while (this.distance <= d + k) {
 				// keep turning
-				display.drawString("looking for end of wall", 0, 4);
 			}
 			display.drawString("                  ",  0,  4);
 			display.drawString("second wall found", 0, 4);
 
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			//this.leftMotor.stop();
+			//this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleB = this.odometer.getTheta();
 			
-			// calculate middle of those two angles
-			// adjAngle = angleA + (angleB - angleA)/2;	// TODO: really needed?
-			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
 			
 			// rotate to (hopefully) 0deg
-			this.turnTo(angleB - ((angleB - angleA)/2) + 3*Math.PI/4);
+			// TODO: the angle we turning is not correct(too large)
+			display.clear();
+			display.drawString("angleA: " + angleA, 0, 4);
+			display.drawString("angleB: " + angleB, 0, 5);
+			
+			double deltaAngle;
+			if (angleB > angleA) {
+				deltaAngle = (2*Math.PI - angleB) + angleA;
+			} else {
+				deltaAngle = angleA - angleB;
+			}
+			
+			display.drawString("turnTo: " + (angleA - deltaAngle + 3*Math.PI/4), 0, 7);
+			// this.turnTo(angleB + (Math.abs(angleB - angleA)/2) + 3*Math.PI/4);
+			this.turnTo(deltaAngle);
 			this.odometer.setTheta(0);
+			display.drawString("                  ", 0, 4);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 		}
 	}
@@ -170,37 +192,24 @@ public class USLocalizer implements UltrasonicController {
 	}
 	
 	public void turnTo(double theta) {			
-		display.drawString("inside turnTo", 0, 5);
-		
 		//convert to degrees
 		theta = Math.toDegrees(theta);
 		
 		//turn to calculated angle
-		int rotation = convertAngle(wheelRadius, axleWidth, theta);
+		int rotation = convertAngle(lab4.wheelRadius, lab4.axleWidth, theta);
 		
-		display.drawString("angle: " + rotation, 0, 7);
-		
-		// rotate the appropriate direction (sign on theta accounts for direction
+		// rotate the appropriate direction (sign on theta accounts for direction)
 		this.leftMotor.rotate(rotation, true);
-		this.leftMotor.rotate(90);
 		this.rightMotor.rotate(-rotation, false);
 		
 		this.leftMotor.stop();
 		this.rightMotor.stop();
-		
-		display.drawString("                ",  0, 5);
-		
-		if (Button.waitForAnyPress() == Button.ID_ESCAPE) {
-			System.exit(0);	
-		}
 	}
 	
 	@Override
 	public int readUSDistance() {
 	  return this.distance;
 	}
-	
-
 	
 	// calculation methods
 	private static int convertDistance(double radius, double distance) {
