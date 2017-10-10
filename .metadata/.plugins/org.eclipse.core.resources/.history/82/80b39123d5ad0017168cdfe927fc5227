@@ -59,7 +59,7 @@ public class lab4 {
 		
 		Button.waitForAnyPress();
 		
-		LightLocalizer lsLoc = new LightLocalizer(leftMotor, rightMotor, odometer);
+		LightLocalizer lsLoc = new LightLocalizer(leftMotor, rightMotor, odometer, wheelRadius, axleWidth);
 		lsLoc.doLoc();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);

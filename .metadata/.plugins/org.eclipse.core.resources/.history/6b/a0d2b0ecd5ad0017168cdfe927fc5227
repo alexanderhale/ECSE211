@@ -55,11 +55,11 @@ public class lab4 {
 		odometer.start();
 		odometryDisplay.start();
 	    usPoller.start();
-		usLoc.doLoc();
+		// usLoc.doLoc();
 		
-		Button.waitForAnyPress();
+		// Button.waitForAnyPress();
 		
-		LightLocalizer lsLoc = new LightLocalizer(leftMotor, rightMotor, odometer);
+		LightLocalizer lsLoc = new LightLocalizer(leftMotor, rightMotor, odometer, wheelRadius, axleWidth);
 		lsLoc.doLoc();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);

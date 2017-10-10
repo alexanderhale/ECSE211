@@ -66,8 +66,8 @@ public class LightLocalizer {
 		Sound.playNote(Sound.FLUTE, 880, 250);
 		
 		// turn 90deg clockwise
-		this.leftMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
-		this.rightMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
+		this.leftMotor.rotate(convertAngle(this.wheelRadius, this.axleWidth, 90), true);
+		this.rightMotor.rotate(-convertAngle(this.wheelRadius, this.axleWidth, 90), false);
 		
 		this.leftMotor.forward();
 		this.rightMotor.forward();
@@ -88,16 +88,16 @@ public class LightLocalizer {
 		Sound.playNote(Sound.FLUTE, 880, 250);
 		
 		// move f cm forward
-		this.leftMotor.rotate(convertDistance(lab4.wheelRadius, f), true);
-		this.rightMotor.rotate(convertDistance(lab4.wheelRadius, f), false);
+		this.leftMotor.rotate(convertDistance(this.wheelRadius, f), true);
+		this.rightMotor.rotate(convertDistance(this.wheelRadius, f), false);
 		
 		// turn 90deg counterclockwise
-		this.leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
-		this.rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
+		this.leftMotor.rotate(-convertAngle(this.wheelRadius, this.axleWidth, 90), true);
+		this.rightMotor.rotate(convertAngle(this.wheelRadius, this.axleWidth, 90), false);
 		
 		// move f cm forward
-		this.leftMotor.rotate(convertDistance(lab4.wheelRadius, f), true);
-		this.rightMotor.rotate(convertDistance(lab4.wheelRadius, f), false);
+		this.leftMotor.rotate(convertDistance(this.wheelRadius, f), true);
+		this.rightMotor.rotate(convertDistance(this.wheelRadius, f), false);
 		
 		// done => zero odometer values
 		this.odometer.setX(0);
