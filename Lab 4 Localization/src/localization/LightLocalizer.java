@@ -13,7 +13,7 @@ public class LightLocalizer {
 	// constants
 	private final double f = 3.3;	// distance between light sensor and wheels
 	public static int forwardSpeed = 100;
-	private static final int blackValue = 100;	// TODO: FINE-TUNE THIS. THIS IS AN ESTIMATE.
+	private static final int blackValue = 200;	// TODO: needs to be changed because location of sensor changed
 	double wheelRadius, axleWidth;
 	
 	Odometer odometer;
@@ -55,13 +55,14 @@ public class LightLocalizer {
 		// get light value
 	    lightValue.fetchSample(lightData, 0);
 	    float reading = lightData[0] * 1000;		// scale up for more accuracy
-	    display.drawString("Color: " + lightValue, 0, 4);
+	    display.drawString("Color: " + reading, 0, 4);
 	    
 		while (reading <= blackValue) {
 			// update light value
 		    lightValue.fetchSample(lightData, 0);
 		    reading = lightData[0] * 1000;		// scale up for more accuracy
-		    display.drawString("Color: " + lightValue, 0, 4);
+		    display.drawString("                  ", 0, 4);
+		    display.drawString("Color: " + reading, 0, 4);
 		}
 		this.leftMotor.stop();
 		this.rightMotor.stop();
@@ -72,11 +73,15 @@ public class LightLocalizer {
 		this.rightMotor.rotate(-convertAngle(this.wheelRadius, this.axleWidth, 90), false);
 		
 		// move forward until a line is detected, stop
+		// get light value
+	    lightValue.fetchSample(lightData, 0);
+	    reading = lightData[0] * 1000;		// scale up for more accuracy
+	    display.drawString("Color: " + reading, 0, 4);		
 		while (reading <= blackValue) {
 			// update light value
 		    lightValue.fetchSample(lightData, 0);
 		    reading = lightData[0] * 1000;		// scale up for more accuracy
-		    display.drawString("Color: " + lightValue, 0, 4);
+		    display.drawString("Color: " + reading, 0, 4);
 		}
 		this.leftMotor.stop();
 		this.rightMotor.stop();
