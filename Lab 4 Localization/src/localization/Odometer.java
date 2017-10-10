@@ -16,8 +16,8 @@ public class Odometer extends Thread {
   public static int lastTachoR;			// Tacho R at last sample 
   public static int nowTachoL;			// Current tacho L
   public static int nowTachoR;			// Current tacho R
-  public static final double WR = 2.125;
-  public static final double Width = 12.7;
+  public static final double WR = 2.1;  //2.125
+  public static final double Width = 14.1; //12.7
   private static final double twopi = 2*Math.PI;
   //change the WR and width to our own robot value
 

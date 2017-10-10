@@ -45,15 +45,19 @@ public class USLocalizer implements UltrasonicController {
 		
 		// if falling edge
 		if (this.locType == LocalizationType.FALLING_EDGE) {
+			while (this.distance < d - k) {
+				 //keep turning
+			}
+			
 			// wall detected yet? If not, rotate more
 			while (this.distance >= d - k) {
 				// keep turning
 			}
 			
 			// wait for first falling edge
-			while (this.distance < d - k) {
-				// keep turning
-			}
+			//while (this.distance < d - k) {
+				 //keep turning
+			//}
 			this.leftMotor.stop();
 			this.rightMotor.stop();
 			Sound.playNote(Sound.FLUTE, 880, 250);
@@ -61,11 +65,21 @@ public class USLocalizer implements UltrasonicController {
 			// record angle
 			angleA = this.odometer.getTheta();
 			
+			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
+			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
+			
 			// turn counterclockwise until next falling edge
 			this.leftMotor.backward();
 			this.rightMotor.forward();
 			
-			while (this.distance < d - k) {
+			
+			//while (this.distance < d - k) {
+				// keep turning
+			//}
+			
+			//I change the logic here, please check
+			
+			while (this.distance >= d - k) {
 				// keep turning
 			}
 			this.leftMotor.stop();
@@ -79,6 +93,7 @@ public class USLocalizer implements UltrasonicController {
 			adjAngle = angleA + (angleB - angleA)/2;		// TODO: really needed?
 			
 			// rotate to (hopefully) 0deg
+			//TODO: now the turnTo is not working
 			turnTo(angleB - ((angleB - angleA)/2) + 3*Math.PI/4);
 			this.odometer.setTheta(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
@@ -86,15 +101,16 @@ public class USLocalizer implements UltrasonicController {
 		
 		// if rising edge
 		else {
+			//TODO: the logic here will cause infinite turning, check.
 			// already facing wall? Turn more
 			while (this.distance <= d + k) {
-				// keep turning
+				 //keep turning
 			}
 			
 			// wait for first rising edge
-			while (this.distance > d + k) {
+			//while (this.distance > d + k) {
 				// keep turning
-			}
+			//}
 			this.leftMotor.stop();
 			this.rightMotor.stop();
 			Sound.playNote(Sound.FLUTE, 880, 250);
@@ -102,11 +118,15 @@ public class USLocalizer implements UltrasonicController {
 			// record angle
 			angleA = this.odometer.getTheta();
 			
+			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), true);
+			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), false);
+			
 			// turn counterclockwise until next rising edge
 			this.leftMotor.backward();
 			this.rightMotor.forward();
 			
-			while (this.distance > d + k) {
+			//I change the sign here, please check
+			while (this.distance <= d + k) {
 				// keep turning
 			}
 			this.leftMotor.stop();
@@ -119,7 +139,9 @@ public class USLocalizer implements UltrasonicController {
 			// calculate middle of those two angles
 			adjAngle = angleA + (angleB - angleA)/2;	// TODO: really needed?
 			
+			
 			// rotate to (hopefully) 0deg
+			//TODO: now the turnTo is not working
 			turnTo(angleB - ((angleB - angleA)/2) + 3*Math.PI/4);
 			this.odometer.setTheta(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
@@ -163,6 +185,8 @@ public class USLocalizer implements UltrasonicController {
 	public int readUSDistance() {
 	  return this.distance;
 	}
+	
+
 	
 	// calculation methods
 	private static int convertDistance(double radius, double distance) {

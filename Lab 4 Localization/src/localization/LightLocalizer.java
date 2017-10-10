@@ -11,7 +11,7 @@ import lejos.hardware.Sound;
 
 public class LightLocalizer {
 	// constants
-	private final double f = 3.25;	// distance between light sensor and wheels
+	private final double f = 3.3;	// distance between light sensor and wheels
 	public static int forwardSpeed = 100;
 	private static final int blackValue = 100;	// TODO: FINE-TUNE THIS. THIS IS AN ESTIMATE.
 	double wheelRadius, axleWidth;

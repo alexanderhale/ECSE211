@@ -13,7 +13,7 @@ public class lab4 {
 	private static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
 	private static final EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("D"));
 	private static final Port usPort = LocalEV3.get().getPort("S2");			
-	public static final double axleWidth = 12.7, wheelRadius = 2.125;
+	public static final double axleWidth = 14.1, wheelRadius = 2.1;  //12.7, 2.125
 	
 	public static void main(String[] args) {
 		final TextLCD display = LocalEV3.get().getTextLCD();
