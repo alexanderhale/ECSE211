@@ -55,15 +55,22 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                ",  0,  4);
 			display.drawString("first wall found", 0, 4);
 			
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			//this.leftMotor.stop();
+			//this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleA = this.odometer.getTheta();
 			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
+			
 			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
 			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
+			
+			
 			
 			// turn counterclockwise until next falling edge
 			this.leftMotor.backward();
@@ -76,16 +83,21 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                 ",  0,  4);
 			display.drawString("second wall found", 0, 4);
 			
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			//this.leftMotor.stop();
+			//this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleB = this.odometer.getTheta();
 			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
 			// rotate to (hopefully) 0deg
-			// TODO: check if this is the right amount to turn
+			// TODO: the angle we turning is too large, check the method
 			turnTo(angleB - ((Math.abs(angleB - angleA))/2) + 3*Math.PI/4);
+			
 			this.odometer.setTheta(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 		}
@@ -100,12 +112,17 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                ",  0,  4);
 			display.drawString("first wall found", 0, 4);
 
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			//this.leftMotor.stop();
+			//this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleA = this.odometer.getTheta();
+			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
 			
 			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), true);
 			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), false);
@@ -121,15 +138,20 @@ public class USLocalizer implements UltrasonicController {
 			display.drawString("                  ",  0,  4);
 			display.drawString("second wall found", 0, 4);
 
-			this.leftMotor.stop();
-			this.rightMotor.stop();
+			//this.leftMotor.stop();
+			//this.rightMotor.stop();
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
 			// record angle
 			angleB = this.odometer.getTheta();
 			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
+			
 			// rotate to (hopefully) 0deg
-			// TODO: is this the right amount to turn?
+			// TODO: the angle we turning is not correct(too large)
 			this.turnTo(angleB + (Math.abs(angleB - angleA)/2) + 3*Math.PI/4);
 			this.odometer.setTheta(0);
 			display.drawString("                  ", 0, 4);

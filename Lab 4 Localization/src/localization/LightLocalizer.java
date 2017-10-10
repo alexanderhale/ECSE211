@@ -15,6 +15,8 @@ public class LightLocalizer {
 	public static int forwardSpeed = 100;
 	private static final int blackValue = 600;	// TODO: needs to be changed because location of sensor changed
 	
+	//TODO: sometimes the sensor read the blackValue right after we press the start.
+	
 	Odometer odometer;
 	private EV3LargeRegulatedMotor leftMotor, rightMotor;
 	final TextLCD display = LocalEV3.get().getTextLCD();
@@ -61,10 +63,15 @@ public class LightLocalizer {
 		    display.drawString("                  ", 0, 4);
 		    display.drawString("Color: " + reading, 0, 4);
 		}
-		this.leftMotor.stop();
-		this.rightMotor.stop();
+		//this.leftMotor.stop();
+		//this.rightMotor.stop();
+		this.leftMotor.setSpeed(0);
+		this.rightMotor.setSpeed(0);
+		
 		Sound.playNote(Sound.FLUTE, 880, 250);
 		
+		this.leftMotor.setSpeed(forwardSpeed);
+		this.rightMotor.setSpeed(forwardSpeed);
 		// turn 90deg clockwise
 		this.leftMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
 		this.rightMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
@@ -83,9 +90,13 @@ public class LightLocalizer {
 		    reading = lightData[0] * 1000;		// scale up for more accuracy
 		    display.drawString("Color: " + reading, 0, 4);
 		}
-		this.leftMotor.stop();
-		this.rightMotor.stop();
+		//this.leftMotor.stop();
+		//this.rightMotor.stop();
+		this.leftMotor.setSpeed(0);
+		this.rightMotor.setSpeed(0);
 		Sound.playNote(Sound.FLUTE, 880, 250);
+		this.leftMotor.setSpeed(forwardSpeed);
+		this.rightMotor.setSpeed(forwardSpeed);
 		
 		// move f cm forward
 		this.leftMotor.rotate(convertDistance(lab4.wheelRadius, f), true);
