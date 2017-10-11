@@ -102,8 +102,8 @@ public class USLocalizer implements UltrasonicController {
 			this.rightMotor.setSpeed(rotateSpeed);
 			
 			// rotate to (hopefully) 0deg via short path
-			this.turnTo(deltaTheta/2 - Math.PI/5.9);		// mathematically should be Math.PI/4;
-															// in reality falls short
+			this.turnTo(deltaTheta/2 - Math.PI/7);		// mathematically should be Math.PI/4;
+														// in reality falls short
 			
 			this.odometer.setTheta(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
@@ -157,8 +157,8 @@ public class USLocalizer implements UltrasonicController {
 			this.rightMotor.setSpeed(rotateSpeed);
 			
 			// rotate to (hopefully) 0deg via short path
-			this.turnTo(-(5*Math.PI/4.48 - deltaTheta/2));	// mathematically should be 5*Math.PI/4;
-															// in reality overshoots
+			this.turnTo(-(5*Math.PI/4 - deltaTheta/1.8));	// mathematically should be deltaTheta/2;
+															// in reality undershoots
 			
 			this.odometer.setTheta(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);

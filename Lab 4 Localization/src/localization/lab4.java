@@ -17,6 +17,7 @@ import lejos.robotics.SampleProvider;
  * @author Alex Hale
  * @author Xianyi Zhan
  */
+
 public class lab4 {
 	// setting up connections
 	private static final EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(LocalEV3.get().getPort("A"));
