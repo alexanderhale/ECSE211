@@ -1,6 +1,5 @@
 package localization;
 
-import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
@@ -33,95 +32,38 @@ public class USLocalizer implements UltrasonicController {
 	
 	
 	public void doLoc(){
-		double angleA, angleB;	
-		
 		//set the speed and acceleration
 		this.leftMotor.setSpeed(rotateSpeed);
 		this.rightMotor.setSpeed(rotateSpeed);
 		this.leftMotor.setAcceleration(500);
 		this.rightMotor.setAcceleration(500);
 		
-		// rotate clockwise
-		this.leftMotor.forward();
-		this.rightMotor.backward();
-		
 		// if falling edge
 		if (this.locType == LocalizationType.FALLING_EDGE) {
-			// wall detected yet? If not, rotate more
-			while (this.distance >= d - k) {
-				// keep turning
-				display.drawString("looking for wall", 0, 4);
-			}
-			display.drawString("                ",  0,  4);
-			display.drawString("first wall found", 0, 4);
+			// avoid finding falling edge too early
+			leftMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), true);
+			rightMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), false);
 			
-			//this.leftMotor.stop();
-			//this.rightMotor.stop();
-			this.leftMotor.setSpeed(0);
-			this.rightMotor.setSpeed(0);
-			Sound.playNote(Sound.FLUTE, 880, 250);
+			// rotate clockwise
+			this.leftMotor.forward();
+			this.rightMotor.backward();
 			
-			// record angle
-			angleA = this.odometer.getTheta();
-			
-			this.leftMotor.setSpeed(rotateSpeed);
-			this.rightMotor.setSpeed(rotateSpeed);
-			
-			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
-			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
-			
-			
-			
-			// turn counterclockwise until next falling edge
-			this.leftMotor.backward();
-			this.rightMotor.forward();
-			
-			while (this.distance >= d - k) {
-				// keep turning
-				display.drawString("looking for wall", 0, 4);
-			}
-			display.drawString("                 ",  0,  4);
-			display.drawString("second wall found", 0, 4);
-			
-			//this.leftMotor.stop();
-			//this.rightMotor.stop();
-			this.leftMotor.setSpeed(0);
-			this.rightMotor.setSpeed(0);
-			Sound.playNote(Sound.FLUTE, 880, 250);
-			
-			// record angle
-			angleB = this.odometer.getTheta();
-			
-			this.leftMotor.setSpeed(rotateSpeed);
-			this.rightMotor.setSpeed(rotateSpeed);
-			// rotate to (hopefully) 0deg
-			// TODO: the angle we turning is too large, check the method
-			turnTo(angleB - ((Math.abs(angleB - angleA))/2) + 3*Math.PI/4);
-			
-			this.odometer.setTheta(0);
-			Sound.playNote(Sound.FLUTE, 880, 250);
-		}
-		
-		// if rising edge
-		else {			
 			// keep turning until wall drops away
-			while (this.distance <= d + k) {
+			while (this.distance >= d - k) {
 				 //keep turning
-				display.drawString("looking for end", 0, 4);
 			}
-			display.drawString("                ",  0,  4);
-			display.drawString("first wall found", 0, 4);
 
 			this.leftMotor.setSpeed(0);
 			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
-			// record angle
-			angleA = this.odometer.getTheta();
+			// start counting change in angle
+			odometer.setTheta(0);
 			
 			this.leftMotor.setSpeed(rotateSpeed);
 			this.rightMotor.setSpeed(rotateSpeed);
 			
+			// avoid finding falling edge too early
 			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), true);
 			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), false);
 			
@@ -129,43 +71,80 @@ public class USLocalizer implements UltrasonicController {
 			this.leftMotor.backward();
 			this.rightMotor.forward();
 			
-			display.drawString("looking for end of wall", 0, 4);
-			while (this.distance <= d + k) {
+			while (this.distance >= d - k) {
 				// keep turning
 			}
-			display.drawString("                  ",  0,  4);
-			display.drawString("second wall found", 0, 4);
 
-			//this.leftMotor.stop();
-			//this.rightMotor.stop();
 			this.leftMotor.setSpeed(0);
 			this.rightMotor.setSpeed(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 			
-			// record angle
-			angleB = this.odometer.getTheta();
+			// record change in angle
+			double deltaTheta = Math.abs(this.odometer.getTheta());
 			
 			this.leftMotor.setSpeed(rotateSpeed);
 			this.rightMotor.setSpeed(rotateSpeed);
 			
-			// rotate to (hopefully) 0deg
-			// TODO: the angle we turning is not correct(too large)
-			display.clear();
-			display.drawString("angleA: " + angleA, 0, 4);
-			display.drawString("angleB: " + angleB, 0, 5);
+			// rotate to (hopefully) 0deg via short path
+			this.turnTo(deltaTheta/2 - Math.PI/5.9);		// mathematically should be Math.PI/4;
+															// in reality falls short
 			
-			double deltaAngle = (angleA + angleB)/2.0;
-			if (angleB > angleA) {
-				deltaAngle = 5*Math.PI/4 - deltaAngle;
-			} else {
-				deltaAngle = Math.PI/4 - deltaAngle;
-			}
-			
-			display.drawString("turnTo: " + (angleB + deltaAngle), 0, 7);
-			// this.turnTo(angleB + (Math.abs(angleB - angleA)/2) + 3*Math.PI/4);
-			this.turnTo(angleB + deltaAngle);
 			this.odometer.setTheta(0);
-			display.drawString("                  ", 0, 4);
+			Sound.playNote(Sound.FLUTE, 880, 250);
+		}
+		
+		// if rising edge
+		else {			
+			// avoid finding rising edge too early
+			leftMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), true);
+			rightMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), false);
+			
+			// rotate clockwise
+			this.leftMotor.forward();
+			this.rightMotor.backward();
+			
+			// keep turning until wall drops away
+			while (this.distance <= d + k) {
+				 //keep turning
+			}
+
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
+			Sound.playNote(Sound.FLUTE, 880, 250);
+			
+			// start counting change in angle
+			odometer.setTheta(0);
+			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
+			
+			// avoid finding rising edge too early
+			leftMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), true);
+			rightMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 45), false);
+			
+			// turn counterclockwise until next rising edge
+			this.leftMotor.backward();
+			this.rightMotor.forward();
+			
+			while (this.distance <= d + k) {
+				// keep turning
+			}
+
+			this.leftMotor.setSpeed(0);
+			this.rightMotor.setSpeed(0);
+			Sound.playNote(Sound.FLUTE, 880, 250);
+			
+			// record change in angle
+			double deltaTheta = Math.abs(this.odometer.getTheta());
+			
+			this.leftMotor.setSpeed(rotateSpeed);
+			this.rightMotor.setSpeed(rotateSpeed);
+			
+			// rotate to (hopefully) 0deg via short path
+			this.turnTo(-(5*Math.PI/4.48 - deltaTheta/2));	// mathematically should be 5*Math.PI/4;
+															// in reality overshoots
+			
+			this.odometer.setTheta(0);
 			Sound.playNote(Sound.FLUTE, 880, 250);
 		}
 	}

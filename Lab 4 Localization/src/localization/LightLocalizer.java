@@ -13,9 +13,7 @@ public class LightLocalizer {
 	// constants
 	private final double f = 3.3;	// distance between light sensor and wheels
 	public static int forwardSpeed = 100;
-	private static final int blackValue = 600;	// TODO: needs to be changed because location of sensor changed
-	
-	//TODO: sometimes the sensor read the blackValue right after we press the start.
+	private static final int blackValue = 550;
 	
 	Odometer odometer;
 	private EV3LargeRegulatedMotor leftMotor, rightMotor;
@@ -72,6 +70,7 @@ public class LightLocalizer {
 		
 		this.leftMotor.setSpeed(forwardSpeed);
 		this.rightMotor.setSpeed(forwardSpeed);
+		
 		// turn 90deg clockwise
 		this.leftMotor.rotate(convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), true);
 		this.rightMotor.rotate(-convertAngle(lab4.wheelRadius, lab4.axleWidth, 90), false);
@@ -90,8 +89,7 @@ public class LightLocalizer {
 		    reading = lightData[0] * 1000;		// scale up for more accuracy
 		    display.drawString("Color: " + reading, 0, 4);
 		}
-		//this.leftMotor.stop();
-		//this.rightMotor.stop();
+
 		this.leftMotor.setSpeed(0);
 		this.rightMotor.setSpeed(0);
 		Sound.playNote(Sound.FLUTE, 880, 250);
