@@ -8,6 +8,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
  * 
  * @author Alex Hale
  * @author Xianyi Zhan
+ *
  */
 public class Odometer extends Thread {
   // robot position

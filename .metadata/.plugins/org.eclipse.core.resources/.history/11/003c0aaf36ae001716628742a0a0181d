@@ -155,3 +155,4 @@ public class LightLocalizer {
 		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}
 }
+}

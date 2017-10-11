@@ -27,7 +27,7 @@ public class lab4 {
 	/**
 	 * The main method runs automatically after the program starts, so all the setup code is placed within it.
 	 * 
-	 * @param args - unused
+	 * @param args - standard Java main method argument
 	 */
 	public static void main(String[] args) {
 		final TextLCD display = LocalEV3.get().getTextLCD();

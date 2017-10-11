@@ -45,7 +45,7 @@ public class USLocalizer implements UltrasonicController {
 	}
 	
 	/**
-	 * Performs heading localization.
+	 * Performs localization.
 	 */
 	public void doLoc(){
 		//set the speed and acceleration

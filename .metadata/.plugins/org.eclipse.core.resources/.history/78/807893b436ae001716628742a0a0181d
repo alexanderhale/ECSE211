@@ -142,15 +142,6 @@ public class LightLocalizer {
 	private static int convertDistance(double radius, double distance) {
 		return (int) ((180.0 * distance) / (Math.PI * radius));
 	}
-	
-	/**
-	 * Converts robot rotation to number of degrees each wheel must turn (in opposite directions).
-	 * 
-	 * @param radius - robot wheel radius (cm)
-	 * @param width - robot axle width (cm)
-	 * @param angle - amount of robot rotation (radians)
-	 * @return number of degrees of wheel rotation (degrees)
-	 */
 	private static int convertAngle(double radius, double width, double angle) {
 		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}

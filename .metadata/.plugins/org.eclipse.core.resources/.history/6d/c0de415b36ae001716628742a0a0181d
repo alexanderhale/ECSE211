@@ -9,14 +9,6 @@ import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.Sound;
 
-/**
- * This class performs position localization using the light sensor. It it assumed that the robot has already
- * undergone successful heading localization.
- * 
- * @author Alex Hale
- * @author Xianyi Zhan
- *
- */
 public class LightLocalizer {
 	// constants
 	private final double f = 3.3;	// distance between light sensor and wheels
@@ -33,13 +25,6 @@ public class LightLocalizer {
 	SampleProvider lightValue = lightSensor.getMode("Red");			// provides samples from this instance
 	float[] lightData = new float[lightValue.sampleSize()];			// buffer in which data are returned
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param leftMotor - robot's left motor
-	 * @param rightMotor - robot's right motor
-	 * @param odometer - robot's odometer
-	 */
 	public LightLocalizer(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, 
 			Odometer odometer) {
 		this.odometer = odometer;
@@ -47,9 +32,6 @@ public class LightLocalizer {
 		this.rightMotor = rightMotor;
 	}
 	
-	/**
-	 * Performs position localization.
-	 */
 	public void doLoc(){
 		// assumptions:
 			// light sensor is in front of wheels by distance f
@@ -132,25 +114,10 @@ public class LightLocalizer {
 		this.odometer.setTheta(0);
 	}
 	
-	/**
-	 * Converts travel distance to number of degrees of rotation of robot's wheel.
-	 * 
-	 * @param radius - radius of robot's wheel (cm)
-	 * @param distance - distance needed to be traveled (cm)
-	 * @return number of degrees of wheel rotation (degrees)
-	 */
+	// calculation methods
 	private static int convertDistance(double radius, double distance) {
 		return (int) ((180.0 * distance) / (Math.PI * radius));
 	}
-	
-	/**
-	 * Converts robot rotation to number of degrees each wheel must turn (in opposite directions).
-	 * 
-	 * @param radius - robot wheel radius (cm)
-	 * @param width - robot axle width (cm)
-	 * @param angle - amount of robot rotation (radians)
-	 * @return number of degrees of wheel rotation (degrees)
-	 */
 	private static int convertAngle(double radius, double width, double angle) {
 		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}

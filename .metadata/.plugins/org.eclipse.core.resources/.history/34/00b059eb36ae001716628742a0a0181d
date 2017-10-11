@@ -3,10 +3,9 @@ package localization;
 import lejos.hardware.lcd.TextLCD;
 
 /**
- * This class prints the odometer readings to the display.
- * 
- * @author Alex Hale
- * @author Xianyi Zhan
+ * This class prints the odometer readings to the display. 
+ * @author Alex
+ *
  */
 public class OdometryDisplay extends Thread {
   private static final long DISPLAY_PERIOD = 250;

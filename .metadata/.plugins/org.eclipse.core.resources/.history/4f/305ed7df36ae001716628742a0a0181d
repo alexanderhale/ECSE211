@@ -3,12 +3,6 @@ package localization;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
-/**
- * This class tracks the position and heading of the robot on the field by keeping track of wheel rotations.
- * 
- * @author Alex Hale
- * @author Xianyi Zhan
- */
 public class Odometer extends Thread {
   // robot position
   private double x;

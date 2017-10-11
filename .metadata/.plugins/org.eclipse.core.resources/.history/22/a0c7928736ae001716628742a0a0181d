@@ -48,7 +48,7 @@ public class LightLocalizer {
 	}
 	
 	/**
-	 * Performs position localization.
+	 * 
 	 */
 	public void doLoc(){
 		// assumptions:
@@ -132,25 +132,10 @@ public class LightLocalizer {
 		this.odometer.setTheta(0);
 	}
 	
-	/**
-	 * Converts travel distance to number of degrees of rotation of robot's wheel.
-	 * 
-	 * @param radius - radius of robot's wheel (cm)
-	 * @param distance - distance needed to be traveled (cm)
-	 * @return number of degrees of wheel rotation (degrees)
-	 */
+	// calculation methods
 	private static int convertDistance(double radius, double distance) {
 		return (int) ((180.0 * distance) / (Math.PI * radius));
 	}
-	
-	/**
-	 * Converts robot rotation to number of degrees each wheel must turn (in opposite directions).
-	 * 
-	 * @param radius - robot wheel radius (cm)
-	 * @param width - robot axle width (cm)
-	 * @param angle - amount of robot rotation (radians)
-	 * @return number of degrees of wheel rotation (degrees)
-	 */
 	private static int convertAngle(double radius, double width, double angle) {
 		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}
