@@ -6,4 +6,5 @@
 <fullyQualifiedTypeName name="lejos.hardware.sensor.EV3ColorSensor"/>
 <fullyQualifiedTypeName name="lejos.hardware.sensor.EV3UltrasonicSensor"/>
 <fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="ca.mcgill.ecse211.zipline.ZipLineLab"/>
 </qualifiedTypeNameHistroy>
