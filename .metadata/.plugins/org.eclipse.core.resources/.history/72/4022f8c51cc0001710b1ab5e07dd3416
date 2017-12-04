@@ -1,0 +1,174 @@
+package ca.mcgill.ecse211.finalproject;
+
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+
+/**
+ * Handles crossing the zip line
+ *
+ * @author Justin Tremblay
+ * @author Josh Inscoe
+ */
+public class ZipLine {
+
+  /**
+   * Enum describing the current state of the zip line controller
+   */
+  public enum Zip_State {
+    IDLE, ALIGNING, MOVING, ZIPLINING, DONE
+  }
+
+  // --------------------------------------------------------------------------------
+  // Object instances of other classes
+  // --------------------------------------------------------------------------------
+  private EV3LargeRegulatedMotor zipMotor;
+  private Driver driver;
+  private Odometer odometer;
+  private SensorData sd;
+
+  // --------------------------------------------------------------------------------
+  // Constants
+  // --------------------------------------------------------------------------------
+
+
+  // --------------------------------------------------------------------------------
+  // Variables
+  // --------------------------------------------------------------------------------
+  private Zip_State cur_state = Zip_State.IDLE;
+  private boolean done = false;
+
+  /**
+   * Constructor
+   *
+   * @param zipMotor Motor mounted on top of the robot.
+   * @param driver Driver object, handles moving the robot.
+   * @param sd SensorData object, gives access to the light sensor data.
+   */
+  public ZipLine(EV3LargeRegulatedMotor zipMotor, Driver driver, SensorData sd) {
+    this.zipMotor = zipMotor;
+    this.driver = driver;
+    this.sd = sd;
+  }
+
+  /**
+   * Processes the current state, updates it and returns the new state as a string.
+   * This method is package-private, only classes in the same package can access it.
+   *
+   * @return The new state, as a string.
+   */
+  String process() {
+    switch (cur_state) {
+      case IDLE:
+        cur_state = process_idle();
+        break;
+      case ALIGNING:
+        cur_state = process_aligning();
+        break;
+      case MOVING:
+        cur_state = process_moving();
+        break;
+      case ZIPLINING:
+        cur_state = process_ziplining();
+        break;
+      case DONE:
+        cur_state = process_done();
+        break;
+    }
+    return cur_state.toString();
+  }
+
+  /**
+   * Process the IDLE state. Move to ALIGNING state if haven't crossed yet, otherwise
+   * wait here.
+   *
+   * @return new state, or same if no need to cross the zip line.
+   */
+  private Zip_State process_idle() {
+    // no need to suspend the odometer - we'll re-localize after crossing
+    
+    if (!done) {
+      return Zip_State.ALIGNING;   // haven't crossed yet => go to alignment
+    } else {
+      return Zip_State.IDLE;      // already crossed => chill here
+    }
+  }
+
+  /**
+   * Process the ALIGNING state. Align the robot with the zip line, then send
+   * it to MOVING.
+   *
+   * @return new state, or same if the angle to the zip line is still too high.
+   */
+  private Zip_State process_aligning() {
+	// check the error between our current heading and the 
+    double err_theta = angleToPos(odometer, FinalProject.ZIPLINE_TRUE_POS);	// TODO where can I find the waypoint of the start of the zip line?
+    if (Math.abs(err_theta) > FinalProject.ZIPLINE_ORIENTATION_THRESHOLD) {
+    	driver.rotate(err_theta, false);	
+        return Zip_State.ALIGNING;			// wait until finished rotating, then redo this state to check
+    } else {
+      return Zip_State.MOVING;		// once we're satisfactorily aligned, ~move~ on to moving
+    }
+
+    return Zip_State.IDLE;
+  }
+
+  /**
+   * process the moving state
+   *
+   * @return new state, or same if still grounded.
+   */
+  private Zip_State process_moving() {
+    // start the zipline motor
+    driver.startTopMotor();
+    
+    
+
+    return Zip_State.IDLE;
+  }
+
+  /**
+   * process the ziplining state (when the robot is hanging from the zipline)
+   *
+   * @return new state, or same if still not grounded.
+   */
+  private Zip_State process_ziplining() {
+    return Zip_State.IDLE;
+  }
+
+  /**
+   * process the done state
+   *
+   * @return new state
+   */
+  private Zip_State process_done() {
+    done = true;
+    return Zip_State.IDLE;
+  }
+
+  /**
+   * Tells whether or not we are done crossing the zipline.
+   *
+   * @return boolean telling whether or not we are done.
+   */
+  public boolean isDone() {
+    return done;
+  }
+  
+  /**
+   * Helper method that computes the angle difference between the robot's 
+   * current position and a waypoint.
+   * 
+   * @param odo current odometer position
+   * @param _pos waypoint we're checking against
+   * @return the angle between our current heading and the waypoint
+   */
+  public static double angleToPos(Odometer odo, Waypoint _pos) {
+    // TODO verify the logic in this function - it was just copy-pasted from Lab 5
+	double orientation_angle = odo.getTheta();
+    double orientation_vect[] = new double[] {Math.cos(orientation_angle), Math.sin(orientation_angle)};
+    double vect_to_pos[] = new double [] {_pos.x * FinalProject.BOARD_TILE_LENGTH - odo.getX(), _pos.y * FinalProject.BOARD_TILE_LENGTH - odo.getY()};
+    double angle = Math.atan2(vect_to_pos[1] * orientation_vect[0] - vect_to_pos[0] * orientation_vect[1],
+        orientation_vect[0] * vect_to_pos[0] + orientation_vect[1] * vect_to_pos[1]);
+
+    return angle;
+  }
+}
