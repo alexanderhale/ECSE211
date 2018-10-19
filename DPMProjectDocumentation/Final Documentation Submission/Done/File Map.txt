@@ -1,0 +1,70 @@
+TEAM 06 - DPM Fall 2017
+
+This USB contains all of the relevant documents created by the team throughout the design project. The orgnization structure of the files can be found below.
+
+---------------------------------------------------------------------
+/TEAM06/
+- File Map
+
+	/TEAM06/Week1
+	- preliminary Capabilities, Constraints, Requirements, and System Documents
+	- preliminary hardware LDD file
+	- preliminary hardware design document
+	- preliminary hardware sketch
+	- Lab 5 codebase
+	- meeting #1 feedback notes
+	
+	/TEAM06/Week2
+	- meeting #2 Powerpoint presentation
+	- meeting #2 Powerpoint presentation (PDF)
+	- updated weekly documents
+	
+	/TEAM06/Week3
+	- meeting #3 Powerpoint presentation
+	- meeting #3 Powerpoint presentation (PDF)
+	- meeting #3 feedback notes
+	- project API, as of October 30
+	- updated weekly documents
+	
+	/TEAM06/Week4
+	- meeting #4 Powerpoint presentation
+	- meeting #4 feedback notes
+	- project API, as of November 6
+	- project codebase, Draft 1
+	- updated weekly documents
+
+	/TEAM06/Week6
+	- meeting #5 Powerpoint presentation
+	- meeting #5 feedback notes
+	- project API, as of November 20
+	- project codebase, Draft 2 and 3
+	- updated weekly documents
+
+	/TEAM06/Competition
+	- Ready-to-Complete Checklist
+	- poster (PDF)
+	- documentation status summaries
+	- project codebase used in competition
+	- project API, as of November 23
+	- updated weekly documents
+
+	/TEAM06/Final
+	- final report
+	- final hardware design (LDD)
+	- final updated weekly documents
+	- final API
+	- final codebase
+
+-----------------------------------------------------------------------
+
+Note: "updated weekly documents" comprises each of the documents listed below, containing the information generated up to that point in time:
+- Timesheet (Excel, PDF, or both)
+- Hardware Design Document
+- Software Design Document
+- Testing Document
+- Constraints Document
+- Capabilities Document
+- Requirements Document
+- System Document
+- GANTT chart
+- GANTT chart report

@@ -1,0 +1,52 @@
+Week 6 Meeting Notes
+
+- difference between integration tests and system test?
+	- integration: how to the components work together
+	- system: how the robot runs in the competition simulation
+- upload original LDD file
+- once again: ensure that the situation on any particular day can be replicated
+
+- final instructions:
+	- full floor available 5:30 Thursday evening
+	- if things don't work on Thursday:
+		- don't work all night (don't worry, we won't) - you'll make things worse
+	- grading
+		- 2-3% of project marks depend on whether robot works
+		- 40% of project marks depend on the presentation(s)
+			- each presentation is 5-10 minutes presenting, 20 minutes questioning
+			- some questions will be dumb, some will be tough, be prepared
+			- presentations start at 9:00 - 9:30
+			- questions _should_ be dependent on the process
+				- teaching and learning people might have some wishy-washy questions
+		- 7-8% on weekly meetings and beta demo
+		- remaining marks from documentation submission
+		- 4 runs on the demo floor
+			- marks depend on illustrating all the behaviours required
+				- if they get illustrated in different runs, that counts
+			- for every behaviour illustrated, you get a point
+				- add up the points in each demo
+				- robot with most points at the end of the day wins
+			- 5 minutes each, 8 hour day, 1 hour for lunch
+	- create a checklist
+		- charged batteries
+		- right hardware and software
+		- cables plugged in
+		- etc
+		- sign off on all these things before the robot is allowed to run
+			- prevents people from changing minor things waiting to run
+		- hand in a copy with the final documentation submission
+	- bring an extension cord or powerbar
+- final report
+	- will be posted soon
+		- 5ish pages
+		- what when wrong (in preparation, on the day)
+		- what went well
+		- what happened during the semester
+- final documentation submission on a USB December
+	- add a directory file at the front of the USB
+	- two copies of the USB, one for each Professor
+	- printed copy of the report with everybody's signature on it
+		- everybody has to agree with what's written in there and in the documentation submission
+
+- add a clock on the searching algorithm:
+	- if you can't find the flag within a time limit, forget it and go back to home base

@@ -1,0 +1,20 @@
+[D] Make sure sensor is not too low (detects floor)
+
+GANTT chart
+	Critical path doesn’t work on GANTT chart
+	Also GANTT: make sure that some things depend on mechanical design
+		Subtasks may be causing the problem
+	We’re ahead of where it says we are on the GANTT chart
+	GANTT chart says 4 of us didn’t work for four days
+	100% = 2 hours per day - need to smooth things out over a few days instead
+		if it isn't changed, make a "legend" document so he can understand how it works
+		things should be allocated per day, update days after the fact if needed
+		cross-check with timesheet
+			use the same task lengths on the timesheet as on the GANTT chart => makes this easier
+
+[D] Add hardware versions to hardware document and reference them from testing document
+[D] don't worry too much about sensor accuracy - as long as it's "accurate enough", we're good to go
+- everybody's number of hours must be within 10% of each other
+	- otherwise, we'll lose grades :(
+- estimate how many lines of code & how many threads
+	- use number of lines of code to update GANTT chart

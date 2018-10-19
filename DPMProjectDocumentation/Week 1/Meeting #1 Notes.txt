@@ -1,0 +1,21 @@
+- introduction of team members and roles
+	- Josh: Project Manager
+	- Alex: Documentation Manager
+	- Justin: Software Manager
+	- Frederic: Hardware Manager
+	- Xu: Testing Manager
+	- Jeffrey: Hardware and Testing Engineer
+- preliminary GANTT chart
+	- Justin:
+	- need to budget time all the way to the end to make sure we have enough
+	- need to split tasks up into smaller subtasks, 2-3 days each
+	- progress bars on each task
+	- timesheet
+- summary of four documents
+	- Alex: bring up 4 PDFs
+	- diagram for system model
+		- replace the paragraph
+- preliminary sketch
+	- Fred: bring up sketch
+- plan for next week
+	- Josh?	

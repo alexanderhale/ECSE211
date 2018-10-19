@@ -1,0 +1,32 @@
+Week 4 Notes
+- hours worked mark deduction is based on the average
+	- missed what the exact calculation was for grade deductions
+	- 
+- if the WiFi is the only thing left to develop, that's pretty good
+- if the hardware is finalized, that's great
+	- any changes will require large software changes
+- export timesheet as an Excel file so Prof. Lowther can play around with it
+- GANTT
+	- software dev and testing probably shouldn't be simultaneous
+		- can't test it until it's already done
+	- make sure tasks in GANTT match tasks in timesheet
+		- number of hours doesn't have to be perfect, but be sure you're working on one of the tasks in the chart
+		- maybe make explicit references to GANTT tasks in timesheet?
+		- use the numbers associated with each task in GANTT and put them in the timesheet
+		- team members should look at tasks in GANTT chart to take note of which task they're working on
+- testing suggestions
+	- Prof. Lowther wants to be able to re-run any one of the tests based on the documentation
+	- replace all the N/As with links to the actual code that was used
+		- if a custom-written script was used to run the test, make sure to save it and include it in documentation files so he can use it
+	- how accurate do we _need_ the sensors to be for our goal to be achieved?
+		- we know how accurate all the motors are from the tests that have been completed, but do we know how much inaccuracy we can tolerate?
+		- we have time to do this, may as well
+
+- no document upload required next week
+	- we can do it anyway to stay on the same rhythm, but they won't be marked
+	- the documents will be uploaded in 2 weeks' time for our final meeting, which is the week of the final demo
+
+- flag detection:
+	- we're allowed to run into the blocks, but you can't move them out of the square
+	- don't move the zip line, y'all
+	- the zip line builder might meet with people to discuss changing it
